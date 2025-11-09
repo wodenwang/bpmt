@@ -1,0 +1,309 @@
+<project name="upgrade" default="default" basedir=".">
+
+    <import file="${basedir}/dbbase.xml" />
+
+    <property name="logsdir" value="${installation.tools.dir}/db/import/logs"/>
+
+    <tstamp>
+        <format property="time.stamp" pattern="yyyyMMdd-hhmm" />
+    </tstamp>
+
+    <property name="upgrade_bak_dir" value="${installation.bak.dir}/${time.stamp}" />
+    <property name="ca.temp.dir" value="${installation.installer.log.dir}/ca-upgrade/${time.stamp}" />
+
+    <path id="safe.properties.path">
+        <pathelement location="${installation.conf.dir}/safe.properties" />
+    </path>
+
+    <property name="safe.properties.path" value="${installation.conf.dir}/safe.properties" />
+
+    <path id="upgrade.dir">
+        <pathelement location="${installation.upgrade.dir}" />
+    </path>
+
+    <scriptdef name="compare" language="javascript">
+        <attribute name="lhs" />
+        <attribute name="rhs" />
+        <attribute name="property" />
+        <![CDATA[
+       var lhs = attributes.get("lhs");
+       var rhs = attributes.get("rhs");
+       project.setProperty(attributes.get("property"), lhs > rhs);
+     ]]>
+    </scriptdef>
+
+    <macrodef name="unzip-to-platform">
+        <attribute name="zipfile" />
+        <sequential>
+            <unzip dest="${installation.platform.dir}">
+                <fileset file="@{zipfile}" />
+            </unzip>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="upgrade-patch">
+        <sequential>
+			<trycatch property="error.message">
+			<try>
+				<River-Patch installationRoot="${installation.dir}" strict="${strict}"/>
+			</try>
+			
+			<catch>
+				<echo message="升级失败: ${error.message}"/>
+			</catch>
+  
+			<finally>
+				
+				<move todir="${upgrade_bak_dir}" includeemptydirs="false">
+					<fileset dir="${installation.upgrade.dir}">
+						<include name="**/*.pat" />
+					</fileset>
+				</move>
+			</finally>
+            </trycatch>
+        </sequential>
+    </macrodef>
+
+    <target name="showhelp">
+        <echo message="使用说明:" />
+        <echo message="0.将下载的升级文件放在upgrade目录下面然后运行本工具." />
+        <echo message="1.对于客户自定义扩展包,运行mvn install 之后找到相应的构建结果文件: 如jar, zip, ca等放于upgrade目录下面然后运行本工具." />
+        <echo message="2.更多信息请参阅文档。" />
+    </target>
+
+    <target name="replacewar">
+        <unzip-to-platform zipfile="${warname}" />
+        <create-banner divider="${tools.banner.segment}" message="  替换 ${warname} 成功." />
+        <move file="${warname}" todir="${upgrade_bak_dir}" />
+    </target>
+
+    <target name="replacejar">
+        <copy todir="${installation.platform.libs.dir}">
+            <fileset file="${jarname}" />
+        </copy>
+        <copy todir="${installation.tools.libs}">
+            <fileset file="${jarname}" />
+        </copy>
+        <echo message="  替换 ${jarname} 成功." />
+        <move file="${jarname}" todir="${upgrade_bak_dir}" />
+    </target>
+
+    <target name="replacezip">
+        <unzip-to-platform zipfile="${zipname}" />
+        <echo message="  替换 扩展包 ${zipname} 成功." />
+        <move file="${zipname}" todir="${upgrade_bak_dir}" />
+    </target>
+
+    <target name="executesql">
+        <property file="${installation.tools.conf.dir}/jdbc.properties" />
+        <trycatch property="error.message">
+            <try>
+                <perform-sql-script jdbcDriver="${driverClassName}" jdbcUrl="${url}" jdbcUser="${username}" jdbcPwd="${password}" sqlFile="${sqlfile}" />
+
+                <echo message="  执行sql成功." />
+            </try>
+            <catch>
+                <echo message="执行sql: ${sqlfile} 失败: ${error.message}"/>
+            </catch>
+            <finally>
+                <move file="${sqlfile}" todir="${upgrade_bak_dir}" />
+            </finally>
+        </trycatch>
+    </target>
+
+    <target name="executeexcel">
+        <pathconvert property="jdbcpath" refid="tools.jdbc.properties.path"/>
+        <trycatch property="error.message">
+            <try>
+                <River-DB-Import jdbcConf="file:///${jdbcpath}" excelPath="${excelfile}" exitIfError="true" clearBeforeImport="false" replaceIfConflict="false"/>
+                <echo message="  导入excel: ${excelfile} 完毕." />
+            </try>
+            <catch>
+                <echo message="  导入excel: ${excelfile} 失败: ${error.message}" />
+            </catch>
+            <finally>
+                <move file="${excelfile}" todir="${upgrade_bak_dir}" />
+            </finally>
+        </trycatch>
+    </target>
+
+
+    <target name="updateca">
+        <basename file="${cafile}" property="caname" suffix=".ca"/>
+        <echo message="  准备安装扩展包: ${caname}，进行安装前验证:" />
+
+        <!-- unzip to tmp folder -->
+        <mkdir dir="${ca.temp.dir}" />
+        <unzip dest="${ca.temp.dir}" overwrite="true">
+            <fileset file="${cafile}" />
+        </unzip>
+
+        <property name="version.file.tmp" value="${ca.temp.dir}/${caname}-version.properties" />
+        <River-Get-Version version="from-version" artifact="${caname}" />
+        <loadfile property="to-version" srcfile="${version.file.tmp}"/>
+
+        <!--查看是否已经有CA安装 -->
+        <if>
+            <isset property="from-version" />
+            <then>
+                <echo message="  已安装扩展包版本: ${from-version}, 升级到:${to-version}" />
+                <compare lhs="${to-version}" rhs="${from-version}" property="result"/>
+                <if>
+                    <equals arg1="${result}" arg2="true"/>
+                    <then>
+                        <River-Property addproperty="validated" value="true" />
+                    </then>
+                    <else>
+                        <echo message="  要安装的的扩展包版本小于或等于当前已经安装的版本，请检查。" />
+                    </else>
+                </if>
+            </then>
+            <else>
+                <echo message="  之前没有安装该扩展包: ${caname}" />
+                <River-Property addproperty="validated" value="true" />
+            </else>
+        </if>
+
+        <if>
+            <isset property="validated" />
+            <then>
+                <!-- copy jar files -->
+                <copy todir="${installation.platform.libs.dir}">
+                    <fileset file="${ca.temp.dir}/libs/*.jar" />
+                </copy>
+                <copy todir="${installation.tools.libs}">
+                    <fileset file="${ca.temp.dir}/libs/*.jar" />
+                </copy>
+                <echo message="  拷贝jar包成功." />
+
+                <!-- copy module files -->
+                <copy todir="${installation.platform.dir}" overwrite="true">
+                    <fileset dir="${ca.temp.dir}">
+                        <include name="module_*/**"/>
+                    </fileset>
+                </copy>
+                <echo message="  拷贝module包成功." />
+
+                <!-- execute sql -->
+                <if>
+                    <available file="${ca.temp.dir}/sql/${to-version}.sql"/>
+                    <then>
+                        <property file="${installation.tools.conf.dir}/jdbc.properties" />
+                        <perform-sql-script jdbcDriver="${driverClassName}" jdbcUrl="${url}" jdbcUser="${username}" jdbcPwd="${password}" sqlFile="${ca.temp.dir}/sql/${to-version}.sql" />
+                        <echo message="  执行sql成功." />
+                    </then>
+                </if>
+
+                <move file="${cafile}" todir="${upgrade_bak_dir}" />
+            </then>
+            <else>
+            </else>
+        </if>
+
+        <!-- clean up -->
+        <delete dir="${ca.temp.dir}" />
+
+    </target>
+
+    <target name="syncsnapshot">
+        <pathconvert property="jdbcpath" refid="tools.jdbc.properties.path"/>
+        <pathconvert property="safePath" refid="safe.properties.path"/>
+        <trycatch property="error.message">
+            <try>
+                <River-SnapshotSync jdbcConf="file:///${jdbcpath}" snapshotName="${snapshot}" safe="${safePath}"/>
+                <echo message="同步快照完毕: ${snapshot}."/>
+            </try>
+            <catch>
+                <echo message="同步快照失败: ${snapshot}, ${error.message}"/>
+            </catch>
+            <finally>
+                <move file="${snapshot}" todir="${upgrade_bak_dir}" />
+            </finally>
+        </trycatch>
+
+
+    </target>
+
+    <target name="maintarget" description="Default target">
+        <create-banner divider="${tools.banner.segment}" message="准备升级软件." />
+
+        <create-banner divider="${tools.banner.segment}" message="1. 轻量级升级：" />
+        <foreach target="replacewar" param="warname">
+            <path>
+                <fileset dir="${installation.upgrade.dir}">
+                    <include name="platfo*.war" />
+                    <!-- platform.war 或者 platform-lightly.war -->
+                </fileset>
+            </path>
+        </foreach>
+
+        <create-banner divider="${tools.banner.segment}" message="2. 直接升级jar文件：" />
+        <foreach target="replacejar" param="jarname">
+            <path>
+                <fileset dir="${installation.upgrade.dir}">
+                    <include name="*.jar" />
+                </fileset>
+            </path>
+        </foreach>
+
+        <create-banner divider="${tools.banner.segment}" message="3. 直接升级zip文件：" />
+        <foreach target="replacezip" param="zipname">
+            <path>
+                <fileset dir="${installation.upgrade.dir}">
+                    <include name="*.zip" />
+                </fileset>
+            </path>
+        </foreach>
+
+        <create-banner divider="${tools.banner.segment}" message="4. 执行sql文件：" />
+        <foreach target="executesql" param="sqlfile">
+            <path>
+                <sort>
+                    <fileset dir="${installation.upgrade.dir}">
+                        <include name="*.sql" />
+                    </fileset>
+                </sort>
+            </path>
+        </foreach>
+
+        <create-banner divider="${tools.banner.segment}" message="5. 导入excel文件：" />
+        <foreach target="executeexcel" param="excelfile">
+            <path>
+                <sort>
+                    <fileset dir="${installation.upgrade.dir}">
+                        <include name="*.xls" />
+                        <include name="*.xlsx" />
+                    </fileset>
+                </sort>
+            </path>
+        </foreach>
+
+        <create-banner divider="${tools.banner.segment}" message="6. 升级扩展包：" />
+        <foreach target="updateca" param="cafile">
+            <path>
+                <sort>
+                    <fileset dir="${installation.upgrade.dir}">
+                        <include name="*.ca" />
+                    </fileset>
+                </sort>
+            </path>
+        </foreach>
+
+        <create-banner divider="${tools.banner.segment}" message="7. 升级 BPMT Platform：" />
+        <upgrade-patch />
+
+        <create-banner divider="${tools.banner.segment}" message="8. 同步快照：" />
+        <foreach target="syncsnapshot" param="snapshot">
+            <path>
+                <sort>
+                    <fileset dir="${installation.upgrade.dir}">
+                        <include name="*.sho" />
+                    </fileset>
+                </sort>
+            </path>
+        </foreach>
+
+        <create-banner divider="${tools.banner.segment}" message="执行完毕." />
+    </target>
+
+</project>

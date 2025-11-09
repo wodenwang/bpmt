@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="A" table="A">
+    <id name="id" type="java.lang.String">
+      <column name="ID" length="200" />
+    </id>
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true" />
+    </property>
+    <property name="busiName" type="java.lang.String">
+      <column name="BUSI_NAME" length="500" not-null="true" default="111111"/>
+    </property>
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true" />
+    </property>
+
+    <map name="vars" inverse="true" cascade="all" lazy="false" table="B">
+      <key column="ID" />
+      <index type="string" column="FIELD_KEY" />
+      <one-to-many entity-name="B" />
+    </map>
+  </class>
+</hibernate-mapping>

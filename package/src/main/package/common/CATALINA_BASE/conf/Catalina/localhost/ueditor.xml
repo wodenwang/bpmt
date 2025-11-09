@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context docBase="${catalina.home}/../../ueditor" antiResourceLocking="false" privileged="true" path="/ueditor" allowLinking="true">
+
+</Context>

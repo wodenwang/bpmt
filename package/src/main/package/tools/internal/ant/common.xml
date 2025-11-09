@@ -1,0 +1,33 @@
+<project name="common" basedir=".">
+
+	<property file="common.properties" />
+	
+	<path id="tools.classpath">
+		<fileset dir="${installation.tools.libs}" includes="*.jar" />
+		<pathelement location="${installation.tools.conf.dir}" />
+	</path>
+
+	<taskdef resource="com/riversoft/dtask/dtasks.properties">
+		<classpath>
+			<pathelement location="${installation.tools.libs}/dtask.jar" />
+			<pathelement location="${installation.tools.libs}/patch-implementation.jar" />
+		</classpath>
+	</taskdef>
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="${installation.tools.libs}/ant-contrib.jar" />
+		</classpath>
+	</taskdef>
+
+	<macrodef name="create-banner">
+		<attribute name="divider" />
+		<attribute name="message" />
+		<sequential>
+			<echo message="@{divider}" />
+			<echo message="@{message}" />
+			<echo message="@{divider}" />
+		</sequential>
+	</macrodef>
+
+</project>

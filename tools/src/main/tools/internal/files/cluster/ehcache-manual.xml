@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false" monitoring="autodetect" dynamicConfig="true" name="bpmtHibernateCache">
+
+	<diskStore path="java.io.tmpdir/ehcache/bpmt/hibernate" />
+
+	<cacheManagerPeerProviderFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory" 
+			properties="hostName=localhost,port=4567,socketTimeoutMillis=2000,peerDiscovery=manual,rmiUrls=%RMI_URIS%"/>    
+
+	<cacheManagerPeerListenerFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory" />
+
+	<cache name="bpmtHibernateCache" maxEntriesLocalHeap="10000" eternal="false" timeToIdleSeconds="1800" timeToLiveSeconds="3600" overflowToDisk="true">
+		<cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true,replicatePuts=true,replicateUpdates=true,replicateUpdatesViaCopy=false,replicateRemovals=true"/>
+	</cache>
+
+	<defaultCache maxEntriesLocalHeap="50000" eternal="false" timeToIdleSeconds="1800" timeToLiveSeconds="3600" overflowToDisk="true" maxEntriesLocalDisk="100000" />
+
+</ehcache>

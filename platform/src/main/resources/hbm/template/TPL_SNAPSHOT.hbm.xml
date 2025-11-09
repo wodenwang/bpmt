@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class entity-name="TplSnapshot" table="TPL_SNAPSHOT">
+		<comment>模板快照</comment>
+
+		<id name="id" type="java.lang.String">
+			<column name="ID" length="100" not-null="true">
+				<comment>流水(UUID)</comment>
+			</column>
+		</id>
+
+		<property name="shortKey" type="java.lang.String">
+			<column name="SHOT_KEY" length="200" not-null="true">
+				<comment>快照唯一健</comment>
+			</column>
+		</property>
+
+		<property name="name" type="java.lang.String">
+			<column name="NAME" length="200" not-null="true">
+				<comment>快照名称</comment>
+			</column>
+		</property>
+
+		<property name="description" type="text">
+			<column name="DESCRIPTION" not-null="true">
+				<comment>描述</comment>
+			</column>
+		</property>
+
+		<property name="version" type="java.lang.Integer">
+			<column name="VERSION" length="8" not-null="true">
+				<comment>版本</comment>
+			</column>
+		</property>
+
+		<property name="platformVersion" type="java.lang.String">
+			<column name="PLATFORM_VERSION" length="100" not-null="true">
+				<comment>平台版本</comment>
+			</column>
+		</property>
+
+		<property name="dbFile" type="blob">
+			<column name="DB_FILE" not-null="true">
+				<comment>数据文件</comment>
+			</column>
+		</property>
+
+		<property name="modifiedTables" type="text">
+			<column name="MODIFIED_TABLES">
+				<comment>增量列表</comment>
+			</column>
+		</property>
+
+		<property name="copyDataTables" type="text">
+			<column name="COPYDATA_TABLES">
+				<comment>需拷贝数据动态表</comment>
+			</column>
+		</property>
+
+		<property name="createUid" type="java.lang.String">
+			<column name="CREATE_UID" length="100" not-null="true">
+				<comment>创建人</comment>
+			</column>
+		</property>
+
+		<property name="createDate" type="java.util.Date">
+			<column name="CREATE_DATE" length="23" not-null="true">
+				<comment>创建时间</comment>
+			</column>
+		</property>
+
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!--数据源 -->
+	<bean id="abstractDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass">
+			<value>#{config['jdbc.driverClassName']}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>#{config['jdbc.url']}</value>
+		</property>
+		<property name="username">
+			<value>#{config['jdbc.username']}</value>
+		</property>
+		<property name="password">
+			<value>#{config['jdbc.password']}</value>
+		</property>
+
+		<!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
+		<property name="idleConnectionTestPeriodInMinutes" value="240" />
+		<!-- 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 -->
+		<property name="idleMaxAgeInMinutes" value="60" />
+		<!-- 每个分区最大的连接数 -->
+		<property name="maxConnectionsPerPartition" value="#{config['jdbc.pool.partition.max']?:'50'}" />
+		<!-- 每个分区最小的连接数 -->
+		<property name="minConnectionsPerPartition" value="#{config['jdbc.pool.partition.min']?:'5'}" />
+		<!-- 分区数 ，默认值2，最小1，推荐3-4，视应用而定 -->
+		<property name="partitionCount" value="#{config['jdbc.pool.partition.count']?:'2'}" />
+		<!-- 每次去拿数据库连接的时候一次性要拿几个,默认值：2 -->
+		<property name="acquireIncrement" value="2" />
+		<!-- 缓存prepared statements的大小，默认值：0 -->
+		<property name="statementsCacheSize" value="50" />
+		<!-- 打印SQL语句 -->
+		<property name="logStatementsEnabled">
+			<value>#{config['sql.log']?:'false'}</value>
+		</property>
+		<property name="closeConnectionWatchTimeoutInMs" value="0" />
+		<property name="connectionHook" value="#{config['sql.stat.enable']=='true'?bonecpDataSourceHook:null}" />
+		<property name="queryExecuteTimeLimitInMs" value="#{config['sql.stat.limited']?:'500'}" />
+
+		<property name="disableConnectionTracking" value="true" />
+
+		<property name="driverProperties">
+			<props>
+				<!-- Oracle需要这个属性才能读取建表时候加的注释 -->
+				<prop key="remarksReporting">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean name="bonecpDataSourceHook" class="com.riversoft.platform.stat.BonecpDataSourceHook" />
+	<bean id="dataSource" parent="abstractDataSource" />
+
+	<!-- SessionFactory代理 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+			    <prop key="hibernate.session_factory_name">bpmtHibernateSessionFactory</prop>
+				<prop key="javax.persistence.validation.mode">none</prop>
+				<prop key="hibernate.dialect">#{config['hibernate.dialect']}</prop>
+				<prop key="hibernate.hbm2ddl.auto">#{config['hibernate.autoupdate']=='true'?'update':'none'}</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.jdbc.batch_versioned_data">true</prop>
+				<prop key="hibernate.jdbc.batch_size">15</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.cache.region.factory_class">com.hazelcast.hibernate.HazelcastLocalCacheRegionFactory</prop>
+				<prop key="hibernate.cache.hazelcast.use_native_client">false</prop>
+				<prop key="hibernate.cache.use_second_level_cache">#{config['hibernate.cache']?:'true'}</prop>
+				<prop key="hibernate.cache.use_query_cache">#{config['hibernate.cache']?:'true'}</prop>
+				<prop key="hibernate.cache.hazelcast.instance_name">bpmt-hazelcast-instance</prop>
+			</props>
+		</property>
+		<property name="mappingLocations">
+			<list>
+				<value>classpath*:/hbm/**/*.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+		<property name="dataSource" ref="dataSource" />
+		<property name="nestedTransactionAllowed">
+			<value>true</value>
+		</property>
+		<property name="autodetectDataSource">
+			<value>true</value>
+		</property>
+	</bean>
+
+	<!-- 配置事务特性 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="saveBatch*" propagation="REQUIRED" rollback-for="Exception" timeout="1800" isolation="READ_COMMITTED" />
+			<tx:method name="updateBatch*" propagation="REQUIRED" rollback-for="Exception" timeout="1800" isolation="READ_COMMITTED" />
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception" timeout="120" isolation="READ_COMMITTED" />
+			<tx:method name="remove*" propagation="REQUIRED" rollback-for="Exception" timeout="120" isolation="READ_COMMITTED" />
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception" timeout="120" isolation="READ_COMMITTED" />
+			<tx:method name="execute*" propagation="NESTED" rollback-for="Exception" isolation="READ_COMMITTED" timeout="1800" />
+			<tx:method name="query*" read-only="true" timeout="300" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- spring jdbc配置 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<!-- spring jdbc配置 -->
+	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg index="0">
+			<ref bean="jdbcTemplate" />
+		</constructor-arg>
+	</bean>
+
+	<!-- 配置那些类的方法进行事务管理 -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="txPointcut" expression="execution (* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+	</aop:config>
+
+</beans>

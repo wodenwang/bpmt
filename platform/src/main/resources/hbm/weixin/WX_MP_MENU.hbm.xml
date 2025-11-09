@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="WxMpMenu" table="WX_MP_MENU">
+    <cache usage="read-write" />
+    <comment>[公众号]菜单配置</comment>
+
+    <id name="menuKey" type="java.lang.String">
+      <column name="MENU_KEY" length="100" not-null="true">
+        <comment>菜单主键</comment>
+      </column>
+    </id>
+
+    <property name="mpKey" type="java.lang.String">
+      <column name="MP_KEY" length="100" not-null="true">
+        <comment>MP主键</comment>
+      </column>
+    </property>
+
+    <property name="parentKey" type="java.lang.String">
+      <column name="PARENT_KEY" length="100">
+        <comment>父菜单</comment>
+      </column>
+    </property>
+
+    <property name="busiName" type="java.lang.String">
+      <column name="BUSI_NAME" length="100" not-null="true">
+        <comment>菜单名</comment>
+      </column>
+    </property>
+
+    <property name="description" type="text">
+      <column name="DESCRIPTION">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <property name="menuType" type="java.lang.Integer">
+      <column name="MENU_TYPE" length="8" not-null="true">
+        <comment>菜单类型;0:只作为菜单(一级菜单用);1:超链接;10:仅推送事件;20:弹窗扫码;21:扫码推;30:拍照或相片选择;31:拍照;32:相片选择;40:地理位置选择</comment>
+      </column>
+    </property>
+
+    <property name="commandKey" type="java.lang.String">
+      <column name="COMMAND_KEY" length="100">
+        <comment>事件处理器主键</comment>
+      </column>
+    </property>
+
+    <property name="action" type="java.lang.String">
+      <column name="ACTION" length="500">
+        <comment>连接地址</comment>
+      </column>
+    </property>
+    
+    <property name="pagepath" type="java.lang.String">
+      <column name="PAGEPATH" length="500">
+        <comment>小程序页面路径</comment>
+      </column>
+    </property>
+    
+    <property name="paramType" type="java.lang.Integer">
+      <column name="PARAM_TYPE" length="8">
+        <comment>动态参数</comment>
+      </column>
+    </property>
+
+    <property name="paramScript" type="text">
+      <column name="PARAM_SCRIPT">
+        <comment>动态参数</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="sort" type="java.lang.Integer">
+      <column name="SORT" length="8" not-null="true">
+        <comment>排序</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

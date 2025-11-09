@@ -1,0 +1,29 @@
+<project name="regiser" default="default" basedir=".">
+
+	<import file="${basedir}/common.xml" />
+
+	<macrodef name="register">
+		<attribute name="name" />
+		<attribute name="password" />
+		<sequential>
+			<River-Register installationRoot="${installation.dir}" name="@{name}" password="@{password}"/>
+		</sequential>
+	</macrodef>
+
+	<target name="showhelp">
+		<echo message="使用说明:" />
+		<echo message="0.本工具用于BPMT Tools商业版账号激活。" />
+		<echo message="1.如何获取商业版账号请联系 BPMT 商务支持。" />
+		<echo message="2.同一账号只能激活一次。" />
+	</target>
+
+	<target name="-init">
+		<antcall target="showhelp" />
+	</target>
+
+	<target name="default" depends="-init" description="Default target.">
+		<River-Input prompt="请输入账号ID:" addproperty="name" save="false" />
+		<River-Input prompt="请输入激活码:" addproperty="password" save="false" />
+		<register name="${name}" password="${password}"/>
+	</target>
+</project>

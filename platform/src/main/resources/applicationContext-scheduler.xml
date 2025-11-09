@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <bean name="quartzJobAnnotationScanner" class="com.riversoft.scheduler.QuartzJobAnnotationScanner" init-method="init">
+    <property name="scanPackage" value="com.riversoft" />
+    <property name="jobManager" ref="jobManager" />
+  </bean>
+
+  <!-- Quartz 调度 -->
+  <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="quartzProperties">
+      <props>
+        <!--跳过自动更新 -->
+        <prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+
+        <prop key="org.quartz.scheduler.instanceName">BpmtScheduler</prop>
+        <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+        <!-- 线程池配置 -->
+        <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+        <prop key="org.quartz.threadPool.threadCount">#{config['quartz.threadPool.threadCount']?:'5'}</prop>
+        <prop key="org.quartz.threadPool.threadPriority">5</prop>
+        
+        <!-- JobStore 配置 -->
+        <prop key="org.quartz.jobStore.class">#{config['quartz.jobStore.class']?:'org.quartz.impl.jdbcjobstore.JobStoreTX'}</prop>
+        <prop key="org.quartz.jobStore.driverDelegateClass">#{config['quartz.jobStore.driverDelegateClass']?:'org.quartz.impl.jdbcjobstore.StdJDBCDelegate'}</prop>
+        <prop key="org.quartz.jobStore.selectWithLockSQL">#{config['org.quartz.jobStore.selectWithLockSQL']?:''}</prop>
+
+        <!-- 集群配置 -->
+        <prop key="org.quartz.jobStore.isClustered">true</prop>
+        <prop key="org.quartz.jobStore.clusterCheckinInterval">600000</prop>
+        <prop key="org.quartz.jobStore.maxMisfiresToHandleAtATime">1</prop>
+
+        <prop key="org.quartz.jobStore.misfireThreshold">600000</prop>
+
+        <prop key="org.quartz.jobStore.tablePrefix">QRTZ_</prop>
+      </props>
+    </property>
+    <property name="dataSource" ref="dataSource" />
+    <property name="schedulerName" value="BpmtScheduler" />
+    <property name="startupDelay" value="30" />
+    <!--可选，QuartzScheduler 启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了 -->
+    <property name="overwriteExistingJobs" value="true" />
+
+    <!-- 设置自动启动 -->
+    <property name="autoStartup" value="true" />
+  </bean>
+
+  <bean id="jobManager" class="com.riversoft.platform.job.JobManager" scope="singleton">
+    <constructor-arg>
+      <ref bean="scheduler" />
+    </constructor-arg>
+  </bean>
+
+</beans>

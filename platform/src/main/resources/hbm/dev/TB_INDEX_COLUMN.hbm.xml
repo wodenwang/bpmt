@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.riversoft.platform.po.TbIndexedColumn" table="TB_INDEX_COLUMN">
+    <cache usage="read-write" />
+    <comment>动态表索引列配置</comment>
+
+    <composite-id>
+      <key-property name="tableName" type="java.lang.String">
+        <column name="TABLE_NAME" length="100" not-null="true">
+          <comment>表名</comment>
+        </column>
+      </key-property>
+      <key-property name="indexName" type="java.lang.String">
+        <column name="INDEX_NAME" length="100" not-null="true">
+          <comment>索引名</comment>
+        </column>
+      </key-property>
+      <key-property name="name" type="java.lang.String">
+        <column name="COLUMN_NAME" length="100" not-null="true">
+          <comment>列名</comment>
+        </column>
+      </key-property>
+    </composite-id>
+
+    <property name="ordinalPosition" type="java.lang.Integer">
+      <column name="ORDINAL_POSITION" not-null="true">
+        <comment>位置</comment>
+      </column>
+    </property>
+
+    <property name="size" type="java.lang.String">
+      <column name="INDEX_SIZE" length="20">
+        <comment>长度</comment>
+      </column>
+    </property>
+
+    <property name="primaryKey" type="boolean">
+      <column name="PRIMARY_KEY" sql-type="int" not-null="true">
+        <comment>是否主键索引</comment>
+      </column>
+    </property>
+  </class>
+</hibernate-mapping>

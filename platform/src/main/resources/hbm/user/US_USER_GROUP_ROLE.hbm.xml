@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class entity-name="UsUserGroupRole" table="US_USER_GROUP_ROLE">
+		<cache usage="read-write" />
+		<comment>用户-组织-角色关系表</comment>
+		<composite-id>
+			<key-property name="uid" type="java.lang.String">
+				<column name="USER_ID" length="100" not-null="true">
+					<comment>用户ID</comment>
+				</column>
+			</key-property>
+			<key-property name="groupKey" type="java.lang.String">
+				<column name="GROUP_KEY" length="100" not-null="true">
+					<comment>组织主键主键</comment>
+				</column>
+			</key-property>
+			<key-property name="roleKey" type="java.lang.String">
+				<column name="ROLE_KEY" length="100" not-null="true">
+					<comment>角色主键</comment>
+				</column>
+			</key-property>
+		</composite-id>
+
+		<property name="defaultFlag" type="java.lang.Integer">
+			<column name="DEFAULT_FLAG" length="8" not-null="true">
+				<comment>是否默认</comment>
+			</column>
+		</property>
+
+		<property name="sort" type="java.lang.Integer">
+			<column name="SORT" length="8" not-null="true">
+				<comment>排序</comment>
+			</column>
+		</property>
+
+		<property name="sysFlag" type="java.lang.Integer">
+			<column name="SYS_FLAG" length="8" not-null="true">
+				<comment>是否系统级别</comment>
+			</column>
+		</property>
+
+		<property name="createDate" type="java.util.Date">
+			<column name="CREATE_DATE" length="23" not-null="true">
+				<comment>创建时间</comment>
+			</column>
+		</property>
+		<property name="updateDate" type="java.util.Date">
+			<column name="UPDATE_DATE" length="23" not-null="true">
+				<comment>更新时间</comment>
+			</column>
+		</property>
+
+	</class>
+</hibernate-mapping>

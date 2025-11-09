@@ -1,0 +1,76 @@
+<project name="tomcat" default="default" basedir=".">
+
+	<import file="${basedir}/common.xml" />
+	
+	<property name="tomcat-conf-template" value="${installation.tools.dir}/internal/files/tomcat/server.xml"/>
+	
+	<macrodef name="change-tomcat-port">
+		<sequential>
+			<River-Input prompt="请输入tomcat服务端口" addproperty="connector-port" numeric="true" save="false" />
+				<River-IfElse>
+				<If property="connector-port" operator="&lt;" value="2080">
+					<echo message="输入端口输入不能小于 2080, 请重新输入。" />
+					<change-tomcat-port />
+				</If>
+				<Else>
+				    <Calculate addproperty="tomcat-port-off" valueOne="${connector-port}" valueTwo="8080" operation="-" />
+					<Calculate addproperty="tomcat-port" valueOne="8005" valueTwo="${tomcat-port-off}" operation="+" />
+					<Calculate addproperty="connector-port" valueOne="8080" valueTwo="${tomcat-port-off}" operation="+" />
+					<Calculate addproperty="redirect-port" valueOne="8443" valueTwo="${tomcat-port-off}" operation="+" />
+					<Calculate addproperty="ajp-port" valueOne="8009" valueTwo="${tomcat-port-off}" operation="+" />
+					
+					<echo message="你选择的端口为: ${connector-port} " />
+					<if>
+						<or>
+							<socket server="localhost" port="${tomcat-port}"/>
+							<socket server="localhost" port="${connector-port}"/>
+							<socket server="localhost" port="${redirect-port}"/>
+							<socket server="localhost" port="${ajp-port}"/>
+						</or>	
+						<then>
+							<echo message="端口 ${connector-port}|${tomcat-port}|${redirect-port}|${ajp-port} 部分已经被使用，请重新输入。" />
+							<change-tomcat-port />
+						</then>
+						<else>
+							<copy todir="${installation.installer.log.dir}" overwrite="true">
+								<resources>
+									<file file="${tomcat-conf-template}"/>
+								</resources>
+							</copy>
+							<replace file ="${installation.installer.log.dir}/server.xml" token="SERVER_PORT" value="${tomcat-port}"></replace>
+							<replace file ="${installation.installer.log.dir}/server.xml" token="CONNECTOR_PORT" value="${connector-port}"></replace>
+							<replace file ="${installation.installer.log.dir}/server.xml" token="REDIRCT_PORT" value="${redirect-port}"></replace>
+							<replace file ="${installation.installer.log.dir}/server.xml" token="AJP_PORT" value="${ajp-port}"></replace>
+							
+							<copy todir="${installation.CATALINA_BASE.dir}/conf" overwrite="true">
+								<resources>
+									<file file="${installation.installer.log.dir}/server.xml"/>
+								</resources>
+							</copy>
+							<echo file="${installation.CATALINA_BASE.dir}/conf/tomcat-port.conf">${connector-port}</echo>
+							
+							<echo message="Tomcat 端口修改成功，新端口号为: ${connector-port}" />
+						</else>
+					</if>
+				</Else>
+			</River-IfElse>
+		</sequential>
+	</macrodef>
+	
+	<target name="showhelp">
+		<echo message="使用说明:" />
+		<echo message="0.本工具用于更改 BPMT tools所使用tomcat端口。"/>
+		<echo message="1.Tomcat默认使用8080端口。"/>
+		<echo message="2.请直接输入您想设置的tomcat端口，请确保设置的端口没有被使用。" />
+		<echo message="3.更多信息请参阅文档。" />
+	</target>
+
+	<target name="-init">
+		<antcall target="showhelp" />
+	</target>
+	
+	<target name="default" depends="-init" description="Default target.">
+		<change-tomcat-port />
+	</target>
+	
+</project>

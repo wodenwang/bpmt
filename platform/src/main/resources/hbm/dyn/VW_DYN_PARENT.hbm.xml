@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="VwDynParent" table="VW_DYN_PARENT">
+    <cache usage="read-write" />
+    <comment>父表配置(左关联配置)</comment>
+
+    <id name="parentKey" type="java.lang.String">
+      <column name="PARENT_KEY" length="100" not-null="true">
+        <comment>主键KEY</comment>
+      </column>
+    </id>
+
+    <property name="viewKey" type="java.lang.String">
+      <column name="VIEW_KEY" length="100" not-null="true">
+        <comment>对应视图KEY</comment>
+      </column>
+    </property>
+
+    <property name="tableName" type="java.lang.String">
+      <column name="TABLE_NAME" length="200" not-null="true">
+        <comment>父表名</comment>
+      </column>
+    </property>
+
+    <property name="sort" type="java.lang.Integer">
+      <column name="SORT" length="8" not-null="true">
+        <comment>排序</comment>
+      </column>
+    </property>
+
+    <property name="var" type="java.lang.String">
+      <column name="VAR" length="100" not-null="true">
+        <comment>变量(别名)</comment>
+      </column>
+    </property>
+
+    <set name="foreigns" inverse="true" cascade="all" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>外键列表</comment>
+      <key>
+        <column name="PARENT_KEY" />
+      </key>
+      <one-to-many entity-name="VwDynParentForeign" />
+    </set>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+  </class>
+
+
+  <!-- 外键 -->
+  <class entity-name="VwDynParentForeign" table="VW_DYN_PARENT_FOREIGN">
+    <cache usage="read-write" />
+    <comment>外键</comment>
+
+    <id name="id" type="java.lang.Long">
+      <column name="ID" length="12" not-null="true">
+        <comment>自动主键</comment>
+      </column>
+      <generator class="increment"></generator>
+    </id>
+
+    <property name="parentKey" type="java.lang.String">
+      <column name="PARENT_KEY" length="100" not-null="true">
+        <comment>父KEY</comment>
+      </column>
+    </property>
+
+    <property name="mainColumn" type="java.lang.String">
+      <column name="MAIN_COLUMN" length="100" not-null="true">
+        <comment>主表字段</comment>
+      </column>
+    </property>
+
+    <property name="parentColumn" type="java.lang.String">
+      <column name="PARENT_COLUMN" length="100" not-null="true">
+        <comment>父表字段</comment>
+      </column>
+    </property>
+
+    <property name="sort" type="java.lang.Integer">
+      <column name="SORT" length="8" not-null="true">
+        <comment>排序</comment>
+      </column>
+    </property>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

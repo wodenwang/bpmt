@@ -1,0 +1,44 @@
+<project name="network" default="default" basedir=".">
+
+	<import file="${basedir}/common.xml" />
+
+	<property name="network.settings.file" value="${installation.conf.dir}/network.properties"/>
+	
+	<macrodef name="network-setting">
+		<sequential>
+			<River-Menu addproperty="proxy.type" choices="http,https" prompt="请选择代理服务器类型：" save="false" />
+			<River-Input prompt="请输入代理服务器地址:" addproperty="proxy.server" save="false" />
+			<River-Input prompt="请输入代理服务器端口:" addproperty="proxy.port" numeric="true" save="false" />
+
+			<River-Menu addproperty="needPassword" choices="不需要,需要" prompt="代理是否需要设置密码：" save="false" />
+
+			<River-IfElse>
+				<If property="needPassword" operator="==" value="需要">
+					<River-Input prompt="请输入代理服务器用户名:" addproperty="proxy.username" save="false" />
+					<River-Input prompt="请输入代理服务器密码:" addproperty="proxy.password" save="false" />
+				</If>
+				<Else>
+					<River-Property addproperty="proxy.username" value="" />
+					<River-Property addproperty="proxy.password" value="" />
+				</Else>
+			</River-IfElse>
+
+			<River-NetWorkSetting proxyServer="${proxy.server}" proxyPort="${proxy.port}" proxyType="${proxy.type}" proxyUsername="${proxy.username}" proxyPassword="${proxy.password}" networkSettingsFile="${network.settings.file}"/>
+		</sequential>
+	</macrodef>
+
+	<target name="showhelp">
+		<echo message="使用说明:" />
+		<echo message="0.BPMT Tools 在自动或者手动更新的时候需要连接网络，本工具用于设置网络代理。" />
+		<echo message="1.代理设置存放于: conf/network.properties" />
+		<echo message="2.更多信息请参阅文档。" />
+	</target>
+
+	<target name="-init">
+		<antcall target="showhelp" />
+	</target>
+
+	<target name="default" depends="-init" description="Default target.">
+		<network-setting />
+	</target>
+</project>

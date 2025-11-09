@@ -1,0 +1,87 @@
+<table class="ws-table">
+	<tr>
+		<th>描述</th>
+		<td colspan="2">用户选择</td>
+	</tr>
+
+	<!-- 固定参数 -->
+	<tr>
+		<th colspan="3">固定参数 API</th>
+	</tr>
+	<tr>
+		<th>序号</th>
+		<th>类型</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">1</td>
+		<td class="center">boolean</td>
+		<td>可选,是否在展示账号.默认false.</td>
+	</tr>
+
+	<!-- 动态入参 -->
+	<tr>
+		<th colspan="3">动态参数 API</th>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<th>类型</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">val</td>
+		<td class="center">string</td>
+		<td>默认值.</td>
+	</tr>
+	<tr>
+		<td class="center">group</td>
+		<td class="center">boolean</td>
+		<td>是否展示组织架构,默认true.</td>
+	</tr>
+	<tr>
+		<td class="center">query</td>
+		<td class="center">boolean</td>
+		<td>flag:boolean类型,是否展示查询框,默认true.</td>
+	</tr>
+	<tr>
+		<td class="center">mygroup</td>
+		<td class="center">boolean</td>
+		<td>是否展示"我的组织"快捷方式.默认值:true.</td>
+	</tr>
+	<tr>
+		<td class="center">myself</td>
+		<td class="center">boolean</td>
+		<td>是否展示"我自己"快捷方式.默认值:true.</td>
+	</tr>
+	<tr>
+		<td class="center">root</td>
+		<td class="center">string</td>
+		<td>组织架构树根节点.(在这个组织范围内查找用户)</td>
+	</tr>
+	<tr>
+		<td class="center">black</td>
+		<td class="center">string/string[]</td>
+		<td>黑名单.(查询结果过滤)</td>
+	</tr>
+	<tr>
+		<td class="center">white</td>
+		<td class="center">string/string[]</td>
+		<td>白名单.(查询结果仅包含)</td>
+	</tr>
+
+	<!-- 界面脚本 -->
+	<tr>
+		<th colspan="3">页面JS API</th>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<th>参数说明</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">init()</td>
+		<td></td>
+		<td>将控件设置为初始化状态.<br />调用示例:<br /> <textarea>Widget.init($form,name);</textarea>
+		</td>
+	</tr>
+</table>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="CmDomain" table="CM_DOMAIN">
+    <cache usage="read-write" />
+    <comment>域</comment>
+
+    <id name="domainKey" type="java.lang.String">
+      <column name="DOMAIN_KEY" length="100" not-null="true">
+        <comment>主键</comment>
+      </column>
+    </id>
+
+    <property name="sysFlag" type="java.lang.Integer">
+      <column name="SYS_FLAG" length="8" not-null="true" default="0">
+        <comment>是否系统级别</comment>
+      </column>
+    </property>
+
+    <property name="busiName" type="java.lang.String">
+      <column name="BUSI_NAME" length="200" not-null="true">
+        <comment>展示名</comment>
+      </column>
+    </property>
+
+    <property name="sort" type="java.lang.Integer">
+      <column name="SORT" length="8" not-null="true">
+        <comment>排序</comment>
+      </column>
+    </property>
+
+    <property name="icon" type="java.lang.String">
+      <column name="ICON" length="200">
+        <comment>展示名</comment>
+      </column>
+    </property>
+
+    <property name="columns" type="java.lang.String">
+      <column name="COLUMNS" length="200" not-null="true">
+        <comment>分列展示</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <!-- 权限 -->
+    <many-to-one name="pri" class="com.riversoft.platform.po.CmPri" cascade="all" lazy="false">
+      <column name="PRI" length="100" not-null="true">
+        <comment>权限资源</comment>
+      </column>
+    </many-to-one>
+
+  </class>
+</hibernate-mapping>

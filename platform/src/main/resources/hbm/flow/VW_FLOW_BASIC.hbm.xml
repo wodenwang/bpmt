@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="VwFlowBasic" table="VW_FLOW_BASIC">
+    <cache usage="read-write" />
+    <comment>工作流基础视图</comment>
+
+    <id name="viewKey" type="java.lang.String">
+      <column name="VIEW_KEY" length="100" not-null="true">
+        <comment>主键KEY</comment>
+      </column>
+    </id>
+
+    <property name="pdKey" type="java.lang.String">
+      <column name="PD_KEY" length="100" not-null="true">
+        <comment>流程KEY</comment>
+      </column>
+    </property>
+
+    <property name="tableName" type="java.lang.String">
+      <column name="TABLE_NAME" length="100" not-null="true">
+        <comment>关联订单表名</comment>
+      </column>
+    </property>
+
+    <!-- 1:初始化查询;0:被动查询 -->
+    <property name="initQuery" type="java.lang.Integer">
+      <column name="INIT_QUERY" length="8" not-null="true" default="1">
+        <comment>初始化查询</comment>
+      </column>
+    </property>
+
+    <property name="historyTableName" type="java.lang.String">
+      <column name="HISTORY_TABLE_NAME" length="100">
+        <comment>关联订单历史表名</comment>
+      </column>
+    </property>
+
+    <property name="opinionTableName" type="java.lang.String">
+      <column name="OPINION_TABLE_NAME" length="100">
+        <comment>关联审批意见表名</comment>
+      </column>
+    </property>
+
+    <property name="busiName" type="java.lang.String">
+      <column name="BUSI_NAME" length="200" not-null="true">
+        <comment>展示名</comment>
+      </column>
+    </property>
+
+    <property name="col" type="java.lang.Integer">
+      <column name="COL" length="8" not-null="true">
+        <comment>展示分列数量</comment>
+      </column>
+    </property>
+
+    <property name="sortName" type="java.lang.String">
+      <column name="SORT_NAME" length="100" not-null="true">
+        <comment>排序字段</comment>
+      </column>
+    </property>
+
+    <property name="dir" type="java.lang.String">
+      <column name="DIR" length="100" not-null="true">
+        <comment>排序方向</comment>
+      </column>
+    </property>
+
+    <property name="pageLimit" type="java.lang.Integer">
+      <column name="PAGE_LIMIT" length="8" not-null="false">
+        <comment>每页数量</comment>
+      </column>
+    </property>
+
+    <property name="ordIdType" type="java.lang.Integer">
+      <column name="ORD_ID_TYPE" length="8" not-null="true">
+        <comment>订单号生成规则-脚本类型</comment>
+      </column>
+    </property>
+
+    <property name="ordIdScript" type="text">
+      <column name="ORD_ID_SCRIPT" not-null="true">
+        <comment>订单号生成规则-脚本</comment>
+      </column>
+    </property>
+
+    <property name="msgType" type="java.lang.String">
+      <column name="MSG_TYPE" length="100">
+        <comment>消息通知开关(多选,分号隔离;MAIL:邮件;WX:微信;)</comment>
+      </column>
+    </property>
+
+    <property name="mailSubjectType" type="java.lang.Integer">
+      <column name="MAIL_SUBJECT_TYPE" length="8">
+        <comment>邮件通知-标题-脚本类型</comment>
+      </column>
+    </property>
+
+    <property name="mailSubjectScript" type="text">
+      <column name="MAIL_SUBJECT_SCRIPT">
+        <comment>邮件通知-标题-脚本</comment>
+      </column>
+    </property>
+
+    <property name="mailContentType" type="java.lang.Integer">
+      <column name="MAIL_CONTENT_TYPE" length="8">
+        <comment>邮件通知-内容-脚本类型</comment>
+      </column>
+    </property>
+
+    <property name="mailContentScript" type="text">
+      <column name="MAIL_CONTENT_SCRIPT">
+        <comment>邮件通知-内容-脚本</comment>
+      </column>
+    </property>
+
+    <!-- 处理器 -->
+    <set name="beforeExecs" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>前置处理器列表</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicExecBefore" />
+    </set>
+    <set name="afterExecs" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>前置处理器列表</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicExecAfter" />
+    </set>
+
+    <set name="prepareExecs" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>展示变量列表</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicExecPrepare" />
+    </set>
+
+    <set name="showColumns" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>展示字段列表</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicColumnShow" />
+    </set>
+    <set name="lineColumns" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>分割线字段列表</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicColumnLine" />
+    </set>
+
+    <set name="sysSubs" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>系统子标签</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicSubSys" />
+    </set>
+
+    <set name="viewSubs" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>视图子标签</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicSubView" />
+    </set>
+
+    <set name="querys" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>查询条件列表</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicQuery" />
+    </set>
+
+    <set name="extQuerys" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>查询条件列表(高级)</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicQueryExt" />
+    </set>
+
+    <set name="limits" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>数据限制列表</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicLimit" />
+    </set>
+
+    <set name="sysBtns" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>系统内置按钮</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicBtnSys" />
+    </set>
+
+    <set name="itemBtns" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>明细按钮</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicBtnItem" />
+    </set>
+
+    <set name="summaryBtns" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+      <cache usage="read-write" />
+      <comment>汇总按钮</comment>
+      <key>
+        <column name="VIEW_KEY" />
+      </key>
+      <one-to-many entity-name="VwFlowBasicBtnSummary" />
+    </set>
+
+    <!-- 微信设置 -->
+    <one-to-one name="weixin" entity-name="VwFlowBasicWeixin" cascade="delete" lazy="false">
+    </one-to-one>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

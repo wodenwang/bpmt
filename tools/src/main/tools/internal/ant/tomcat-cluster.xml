@@ -1,0 +1,26 @@
+<project name="tomcat-cluster" default="default" basedir=".">
+
+	<import file="${basedir}/common.xml" />
+	
+	<macrodef name="change-tomcat-setting">
+		<sequential>
+			<echo message="暂时未实现......">
+		</sequential>
+	</macrodef>
+	
+	<target name="showhelp">
+		<echo message="使用说明:" />
+		<echo message="0.本工具用于更改 BPMT tools 集群环境下tomcat设置。"/>
+		<echo message="1.单机环境下请使用默认配置。"/>
+		<echo message="2.更多信息请参阅文档。" />
+	</target>
+
+	<target name="-init">
+		<antcall target="showhelp" />
+	</target>
+	
+	<target name="default" depends="-init" description="Default target.">
+		<change-tomcat-setting />
+	</target>
+	
+</project>

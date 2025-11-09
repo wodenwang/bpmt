@@ -1,0 +1,22 @@
+<project name="dbexport" default="default" basedir=".">
+
+    <import file="${basedir}/dbbase.xml" />
+
+    <path id="exportexcelfiles.path">
+        <pathelement location="${installation.tools.export.dir}"/>
+    </path>
+
+    <target name="showhelp">
+        <echo message="使用说明:" />
+        <echo message="0.导出的数据文件位于:tools\db\export。" />
+        <echo message="1.更多信息请参阅文档。" />
+    </target>
+
+    <target name="maintarget">
+        <pathconvert property="jdbcpath" refid="tools.jdbc.properties.path"/>
+        <pathconvert property="excelpath" refid="exportexcelfiles.path"/>
+
+        <River-DB-Export jdbcConf="file:///${jdbcpath}" exportDir="${excelpath}" />
+    </target>
+
+</project>

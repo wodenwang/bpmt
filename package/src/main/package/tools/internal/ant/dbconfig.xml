@@ -1,0 +1,17 @@
+<project name="dbconfig" default="default" basedir=".">
+
+	<import file="${basedir}/dbbase.xml" />
+	
+	<target name="showhelp">
+		<echo message="使用说明:" />
+		<echo message="0.使用BPMT Tools之前您需要准备一个数据库实例，请按提示输入您的数据库信息。"/>
+		<echo message="1.本工具会尝试连接并配置BPMT Tools 所需的数据库信息，不会实际创建本软件所需的库表结构。" />
+		<echo message="2.配置完成后请使用dbmanage 工具创建库表和初始化。" />
+		<echo message="3.更多信息请参阅文档。" />
+	</target>
+	
+	<target name="maintarget">
+		<configue-db-connection/>	
+	</target>
+
+</project>

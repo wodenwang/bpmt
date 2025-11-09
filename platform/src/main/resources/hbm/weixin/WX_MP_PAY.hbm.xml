@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="WxMpPay" table="WX_MP_PAY">
+    <cache usage="read-write" />
+    <comment>[公众号]支付配置</comment>
+
+    <id name="mpKey" type="java.lang.String">
+      <column name="MP_KEY" length="100" not-null="true">
+        <comment>主键KEY</comment>
+      </column>
+    </id>
+
+    <property name="appId" type="java.lang.String">
+      <column name="APP_ID" length="200" not-null="true">
+        <comment>公众号appId</comment>
+      </column>
+    </property>
+
+    <!-- 支付相关 start -->
+    <property name="mchId" type="java.lang.String">
+      <column name="MCH_ID" length="200" not-null="true">
+        <comment>商户ID</comment>
+      </column>
+    </property>
+
+    <property name="paySecret" type="java.lang.String">
+      <column name="PAY_SECRET" length="200" not-null="true">
+        <comment>支付API秘钥</comment>
+      </column>
+    </property>
+
+    <property name="certPath" type="java.lang.String">
+      <column name="CERT_PATH" length="200" not-null="true">
+        <comment>证书路径</comment>
+      </column>
+    </property>
+
+    <property name="certPassword" type="java.lang.String">
+      <column name="CERT_PASSWORD" length="200" not-null="true">
+        <comment>证书密码</comment>
+      </column>
+    </property>
+    <!-- 支付相关 end -->
+
+  </class>
+</hibernate-mapping>

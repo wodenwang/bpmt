@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="VwFlowBasicWeixin" table="VW_FLOW_BASIC_WEIXIN">
+    <cache usage="read-write" />
+    <comment>工作流视图微信配置</comment>
+
+    <id name="viewKey" type="java.lang.String">
+      <column name="VIEW_KEY" length="100" not-null="true">
+        <comment>主键KEY</comment>
+      </column>
+    </id>
+
+    <property name="listMode" type="java.lang.Integer">
+      <column name="LIST_MODE" length="8" not-null="true">
+        <comment>列表展示模式(0:纯文;1:图文)</comment>
+      </column>
+    </property>
+
+    <property name="urlMode" type="java.lang.Integer">
+      <column name="URL_MODE" length="8" not-null="true" default="1">
+        <comment>数据展示形式(0:查看优先;1:编辑优先)</comment>
+      </column>
+    </property>
+
+    <property name="titleType" type="java.lang.Integer">
+      <column name="TITLE_TYPE" length="8">
+        <comment>标题脚本类型</comment>
+      </column>
+    </property>
+
+    <property name="titleScript" type="text">
+      <column name="TITLE_SCRIPT">
+        <comment>标题脚本</comment>
+      </column>
+    </property>
+
+    <property name="imgType" type="java.lang.Integer">
+      <column name="IMG_TYPE" length="8">
+        <comment>图标区域脚本类型</comment>
+      </column>
+    </property>
+
+    <property name="imgScript" type="text">
+      <column name="IMG_SCRIPT">
+        <comment>图标区域脚本</comment>
+      </column>
+    </property>
+
+    <property name="desType" type="java.lang.Integer">
+      <column name="DES_TYPE" length="8">
+        <comment>描述区域脚本类型</comment>
+      </column>
+    </property>
+
+    <property name="desScript" type="text">
+      <column name="DES_SCRIPT">
+        <comment>描述区域脚本</comment>
+      </column>
+    </property>
+
+    <property name="dateType" type="java.lang.Integer">
+      <column name="DATE_TYPE" length="8">
+        <comment>时间区域脚本类型</comment>
+      </column>
+    </property>
+
+    <property name="dateScript" type="text">
+      <column name="DATE_SCRIPT">
+        <comment>时间区域脚本</comment>
+      </column>
+    </property>
+
+    <many-to-one name="pri" class="com.riversoft.platform.po.CmPri" cascade="all" lazy="false">
+      <column name="PRI" length="100" not-null="true">
+        <comment>权限功能点</comment>
+      </column>
+    </many-to-one>
+
+  </class>
+</hibernate-mapping>

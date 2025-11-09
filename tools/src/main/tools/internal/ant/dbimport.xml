@@ -1,0 +1,57 @@
+<project name="dbimport" default="default" basedir=".">
+
+	<import file="${basedir}/dbbase.xml" />
+	
+	<path id="importexcelfiles.path">
+		<fileset dir="${installation.tools.import.dir}" >
+			<include name="**/*.xlsx"/>
+			<include name="**/*.xls"/>
+		</fileset>
+	</path>
+
+	<target name="showhelp">
+		<echo message="使用说明:" />
+		<echo message="0.请将要导入的数据文件放在tools\db\import下面，文件为格式为excel: [xlsx 或者 xls]。" />
+		<echo message="1.更多信息请参阅文档。" />
+	</target>
+	
+	<target name="maintarget">
+		<River-Menu addproperty="exit" choices="退出, 继续导入" prompt="如果导入过程出错是否退出？" save="false" />
+		<River-Menu addproperty="clear" choices="清除, 不清除" prompt="如果目标表中已经存在数据，是否先做清除？" save="false" />
+		<River-IfElse>
+			<If property="clear" operator="==" value="不清除">
+				<River-Menu addproperty="replace" choices="替换, 不替换" prompt="如果遇到数据冲突，是否替换原有数据？" save="false" />
+			</If>
+		</River-IfElse>
+		<River-IfElse>
+			<If property="exit" operator="==" value="退出">
+				<River-Property addproperty="exitIfError" value="true" />
+			</If>
+			<Else>
+				<River-Property addproperty="exitIfError" value="false" />
+			</Else>
+		</River-IfElse>
+		<River-IfElse>
+			<If property="clear" operator="==" value="清除">
+				<River-Property addproperty="clearBeforeImport" value="true" />
+			</If>
+			<Else>
+				<River-Property addproperty="clearBeforeImport" value="false" />
+			</Else>
+		</River-IfElse>
+		<River-IfElse>
+			<If property="replace" operator="==" value="替换">
+				<River-Property addproperty="replaceIfConflict" value="true" />
+			</If>
+			<Else>
+				<River-Property addproperty="replaceIfConflict" value="false" />
+			</Else>
+		</River-IfElse>
+
+		<pathconvert property="jdbcpath" refid="tools.jdbc.properties.path"/>
+		<pathconvert property="excelpath" refid="importexcelfiles.path"/>
+		
+		<River-DB-Import jdbcConf="file:///${jdbcpath}" excelPath="${excelpath}" exitIfError="${exitIfError}" clearBeforeImport="${clearBeforeImport}" replaceIfConflict="${replaceIfConflict}"/>
+	</target>
+
+</project>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.riversoft.platform.po.UsRole" table="US_ROLE">
+		<cache usage="read-write" />
+		<comment>角色</comment>
+		<id name="roleKey" type="java.lang.String">
+			<column name="ROLE_KEY" length="100" not-null="true">
+				<comment>角色主键</comment>
+			</column>
+		</id>
+
+		<property name="busiName" type="java.lang.String">
+			<column name="BUSI_NAME" length="200" not-null="true">
+				<comment>展示名称</comment>
+			</column>
+		</property>
+
+
+		<property name="sysFlag" type="java.lang.Integer">
+			<column name="SYS_FLAG" length="8" not-null="true">
+				<comment>是否系统级别</comment>
+			</column>
+		</property>
+
+		<property name="sort" type="java.lang.Integer">
+			<column name="SORT" length="8" not-null="true" default="0">
+				<comment>排序</comment>
+			</column>
+		</property>
+
+		<property name="updateDate" type="java.util.Date">
+			<column name="UPDATE_DATE" length="23" not-null="true">
+				<comment>更新时间</comment>
+			</column>
+		</property>
+
+		<property name="createDate" type="java.util.Date">
+			<column name="CREATE_DATE" length="23" not-null="true">
+				<comment>创建时间</comment>
+			</column>
+		</property>
+
+	</class>
+</hibernate-mapping>

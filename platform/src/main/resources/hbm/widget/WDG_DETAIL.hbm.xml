@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class entity-name="WdgDetail" table="WDG_DETAIL">
+		<cache usage="read-write" />
+		<comment>明细控件</comment>
+
+		<id name="widgetKey" type="java.lang.String">
+			<column name="WIDGET_KEY" length="100" not-null="true">
+				<comment>主键KEY</comment>
+			</column>
+		</id>
+
+		<property name="pkType" type="java.lang.Integer">
+			<column name="PK_TYPE" length="8" not-null="true">
+				<comment>主键逻辑(脚本类型)</comment>
+			</column>
+		</property>
+
+		<property name="pkScript" type="text">
+			<column name="PK_SCRIPT" not-null="true">
+				<comment>主键逻辑(脚本)</comment>
+			</column>
+		</property>
+
+		<property name="allowAdd" type="java.lang.Integer">
+			<column name="ALLOW_ADD" length="8" not-null="true">
+				<comment>是否允许新增</comment>
+			</column>
+		</property>
+
+		<property name="allowDelete" type="java.lang.Integer">
+			<column name="ALLOW_DELETE" length="8" not-null="true">
+				<comment>是否允许删除</comment>
+			</column>
+		</property>
+
+		<property name="pageFlag" type="java.lang.Integer">
+			<column name="PAGE_FLAG" length="8" not-null="true" default="0">
+				<comment>是否允许分页</comment>
+			</column>
+		</property>
+
+		<property name="batchFlag" type="java.lang.Integer">
+			<column name="BATCH_FLAG" length="8" not-null="true">
+				<comment>是否批处理</comment>
+			</column>
+		</property>
+
+		<property name="sumarryType" type="java.lang.Integer">
+			<column name="SUMARRY_TYPE" length="8">
+				<comment>汇总(脚本类型)</comment>
+			</column>
+		</property>
+
+		<property name="sumarryScript" type="text">
+			<column name="SUMARRY_SCRIPT">
+				<comment>汇总(脚本)</comment>
+			</column>
+		</property>
+
+		<set name="execs" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+			<cache usage="read-write" />
+			<comment>数据处理器</comment>
+			<key>
+				<column name="WIDGET_KEY" />
+			</key>
+			<one-to-many entity-name="WdgDetailExec" />
+		</set>
+
+		<set name="batchColumns" inverse="true" cascade="delete" lazy="false" order-by="sort asc">
+			<cache usage="read-write" />
+			<comment>批量字段</comment>
+			<key>
+				<column name="WIDGET_KEY" />
+			</key>
+			<one-to-many entity-name="WdgDetailColumnBatch" />
+		</set>
+
+	</class>
+</hibernate-mapping>

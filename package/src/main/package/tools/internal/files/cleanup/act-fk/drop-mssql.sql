@@ -1,0 +1,7 @@
+if exists (select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'ACT_GE_BYTEARRAY') alter table ACT_GE_BYTEARRAY drop constraint ACT_FK_BYTEARR_DEPL;
+if exists (select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'ACT_RU_EXECUTION') alter table ACT_RU_EXECUTION drop constraint ACT_FK_EXE_PROCDEF;
+if exists (select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'ACT_RU_IDENTITYLINK') alter table ACT_RU_IDENTITYLINK  drop constraint ACT_FK_ATHRZ_PROCEDEF;
+if exists (select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'ACT_RU_TASK') alter table ACT_RU_TASK drop constraint ACT_FK_TASK_PROCDEF;
+if exists (select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'ACT_RE_MODEL') alter table ACT_RE_MODEL drop constraint ACT_FK_MODEL_SOURCE;
+if exists (select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'ACT_RE_MODEL') alter table ACT_RE_MODEL drop constraint ACT_FK_MODEL_SOURCE_EXTRA;
+if exists (select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'ACT_RE_MODEL') alter table ACT_RE_MODEL drop constraint ACT_FK_MODEL_DEPLOYMENT;

@@ -1,0 +1,186 @@
+<project name="dbmanage" default="default" basedir=".">
+
+	<import file="${basedir}/dbbase.xml" />
+	<property name="activiti.ddl.create.dir" value="${installation.tools.dir}/internal/files/ddl/activiti/org/activiti/db/create" />
+	<property name="activiti.ddl.drop.dir" value="${installation.tools.dir}/internal/files/ddl/activiti/org/activiti/db/drop" />
+	<property name="quartz.ddl.create.dir" value="${installation.tools.dir}/internal/files/ddl/quartz-ddl/" />
+	<property name="quartz.ddl.drop.dir" value="${installation.tools.dir}/internal/files/ddl/quartz-ddl/" />
+	<property name="activiti.ddl.cleanup.dir" value="${installation.tools.dir}/internal/files/cleanup/act-fk/" />
+
+	<target name="showhelp">
+		<echo message="使用说明:" />
+		<echo message="0.本工具可用于创建或者删除本软件所需的库表结构。" />
+		<echo message="1.使用本工具前请使用dbconfig做好数据库配置工作。" />
+		<echo message="2.数据导入导出请使用dbexport 和 dbimport。" />
+		<echo message="3.更多信息请参阅文档。" />
+	</target>
+
+	<target name="create-activiti-model">
+		<River-IfElse>
+			<If property="db" operator="==" value="sqlserver2005">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.create.dir}/activiti.mssql.create.engine.sql" />
+				</antcall>
+			</If>
+			<ElseIf property="db" operator="==" value="sqlserver2008">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.create.dir}/activiti.mssql.create.engine.sql" />
+				</antcall>
+			</ElseIf>
+			<ElseIf property="db" operator="==" value="postgresql">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.create.dir}/activiti.postgres.create.engine.sql" />
+				</antcall>
+			</ElseIf>
+			<Else>
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.create.dir}/activiti.${database.type}.create.engine.sql" />
+				</antcall>
+			</Else>
+		</River-IfElse>
+	</target>
+
+	<target name="create-activiti-fk">
+		<River-IfElse>
+			<If property="db" operator="==" value="h2">
+			</If>
+			<Else>
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.cleanup.dir}/create.sql" />
+				</antcall>
+			</Else>
+		</River-IfElse>
+	</target>
+
+	<target name="drop-activiti-model">
+		<River-IfElse>
+			<If property="db" operator="==" value="sqlserver2005">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.drop.dir}/activiti.mssql.drop.engine.sql" />
+				</antcall>
+			</If>
+			<ElseIf property="db" operator="==" value="sqlserver2008">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.drop.dir}/activiti.mssql.drop.engine.sql" />
+				</antcall>
+			</ElseIf>
+			<ElseIf property="db" operator="==" value="postgresql">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.drop.dir}/activiti.postgres.drop.engine.sql" />
+				</antcall>
+			</ElseIf>
+			<Else>
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.drop.dir}/activiti.${database.type}.drop.engine.sql" />
+				</antcall>
+			</Else>
+		</River-IfElse>
+	</target>
+
+	<target name="drop-activiti-fk">
+		<River-IfElse>
+			<If property="db" operator="==" value="sqlserver2005">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.cleanup.dir}/drop-mssql.sql" />
+				</antcall>
+			</If>
+			<ElseIf property="db" operator="==" value="sqlserver2008">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.cleanup.dir}/drop-mssql.sql" />
+				</antcall>
+			</ElseIf>
+			<ElseIf property="db" operator="==" value="mysql">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.cleanup.dir}/drop-mysql.sql" />
+				</antcall>
+			</ElseIf>
+			<ElseIf property="db" operator="==" value="db2">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.cleanup.dir}/drop-db2.sql" />
+				</antcall>
+			</ElseIf>
+			<ElseIf property="db" operator="==" value="oracle">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.cleanup.dir}/drop-oracle.sql" />
+				</antcall>
+			</ElseIf>
+			<ElseIf property="db" operator="==" value="h2">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${activiti.ddl.cleanup.dir}/drop-oracle.sql" />
+				</antcall>
+			</ElseIf>
+			<Else>
+
+			</Else>
+		</River-IfElse>
+	</target>
+
+	<target name="create-quartz-model">
+		<River-IfElse>
+			<If property="db" operator="==" value="sqlserver2005">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${quartz.ddl.create.dir}/quartz-sqlserver-create.sql" />
+				</antcall>
+			</If>
+			<ElseIf property="db" operator="==" value="sqlserver2008">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${quartz.ddl.create.dir}/quartz-sqlserver-create.sql" />
+				</antcall>
+			</ElseIf>
+			<Else>
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${quartz.ddl.create.dir}/quartz-${database.type}-create.sql" />
+				</antcall>
+			</Else>
+		</River-IfElse>
+	</target>
+
+	<target name="drop-quartz-model">
+		<River-IfElse>
+			<If property="db" operator="==" value="sqlserver2005">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${quartz.ddl.create.dir}/quartz-sqlserver-drop.sql" />
+				</antcall>
+			</If>
+			<ElseIf property="db" operator="==" value="sqlserver2008">
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${quartz.ddl.create.dir}/quartz-sqlserver-drop.sql" />
+				</antcall>
+			</ElseIf>
+			<Else>
+				<antcall target="run-sql-script">
+					<param name="sql.file" value="${quartz.ddl.create.dir}/quartz-${database.type}-drop.sql" />
+				</antcall>
+			</Else>
+		</River-IfElse>
+	</target>
+
+	<target name="maintarget">
+		<River-Menu addproperty="create-model" choices="创建表结构,删除表结构" prompt="请选择：" save="false" />
+		<River-IfElse>
+			<If property="create-model" operator="==" value="创建表结构">
+				<antcall target="create-model">
+					<param name="model.sql.zip" value="${installation.tools.dir}/internal/files/ddl/hbm2ddl.zip" />
+				</antcall>
+				<echo message="系统表结构创建完毕,准备创建activiti库表." />
+				<antcall target="create-activiti-model"/>
+				<antcall target="drop-activiti-fk"/>
+
+				<echo message="activiti库表创建完毕,准备创建quartz库表." />
+				<antcall target="create-quartz-model"/>
+			</If>
+			<Else>
+				<antcall target="drop-model">
+					<param name="model.sql.zip" value="${installation.tools.dir}/internal/files/ddl/hbm2ddl.zip" />
+				</antcall>
+				<echo message="系统表结构删除完毕,准备删除activiti库表." />
+				<antcall target="create-activiti-fk"/>
+				<antcall target="drop-activiti-model"/>
+
+				<echo message="activiti库表删除完毕,准备删除quartz库表." />
+				<antcall target="drop-quartz-model"/>
+			</Else>
+		</River-IfElse>
+	</target>
+
+</project>

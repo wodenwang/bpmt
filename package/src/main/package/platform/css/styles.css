@@ -1,0 +1,268 @@
+/**
+ * 框架所需样式
+ */
+@IMPORT url("frame.css");
+
+body {
+	padding: 0px;
+	margin: 0px;
+	font-size: 12px;
+	background-color: #ffffff;
+	font-family: Arial, Helvetica;
+}
+td,th {
+	padding: 2px 4px;
+}
+
+textarea {
+	width: 200px;
+	height: 60px;
+	margin-top: 5px;
+	line-height: 20px;
+	font-size: 12px;
+	color: #555;
+	margin-bottom: 5px;
+	border: 1px #aabdd1 solid;
+}
+
+input {
+	width: 200px;
+	height: 20px;
+	font-size: 12px;
+	color: #555;
+	border: 1px #aabdd1 solid;
+}
+
+input.hasDatepicker {
+	cursor: pointer;
+	background: #fff url(images/datePicker.gif) no-repeat right;
+}
+
+input.hasDatepicker.disable {
+	cursor: pointer;
+	background: #eee url(images/datePicker.gif) no-repeat right !important;
+}
+
+/**
+ * tooltip样式
+ */
+div.ws-tip,span.ws-tip,font.ws-tip {
+	cursor: help;
+}
+
+/**
+ * 超链接样式
+ */
+a.ws-link:link,a.ws-link:visited {
+	color: blue !important;
+	text-decoration: none !important;
+}
+
+a.ws-link:hover {
+	color: red !important;
+	text-decoration: underline !important;
+}
+
+/**
+ * 	区域样式
+ */
+.ws-table,.ws-bar,.ws-msg,.ws-panel,.ws-tabs {
+	margin-bottom: 5px;
+}
+
+.ws-scroll {
+	overflow-x: auto;
+	margin-bottom: 5px;
+	padding: 0px 1px;
+}
+
+.ws-scroll>.ws-table {
+	margin-bottom: 0px !important;
+	width: 100%;
+}
+
+.ws-msg {
+	line-height: 15px;
+}
+
+td .ws-table {
+	margin-top: 5px;
+}
+
+.ws-zone {
+	/*无样式*/
+	
+}
+
+/**
+ * 图表区域
+ */
+.ws-charts {
+	min-width: 300px;
+}
+
+/**
+ * panel域
+ */
+.ws-panel {
+	padding: 0.4em;
+}
+
+.ws-panel>h3 {
+	margin: 0;
+	padding: 0.4em;
+	padding-left: 20px !important;
+	text-align: left;
+}
+
+.ws-panel>div {
+	margin: 2px 0px 0px 0px;
+	padding: 5px;
+}
+
+/**
+ * 	按钮条区域样式
+ */
+.ws-bar {
+	text-align: center;
+}
+
+.ws-bar.left {
+	text-align: left !important;
+}
+
+.ws-bar.right {
+	text-align: right !important;
+}
+
+.ws-bar>div.left {
+	z-index: 1001;
+	float: left;
+	text-align: left !important;
+}
+
+.ws-bar>div.right {
+	text-align: right !important;
+}
+
+.ws-bar>div.center {
+	text-align: center !important;
+	position: absolute;
+	width: 95%;
+}
+
+th.ws-checkbox,td.ws-checkbox {
+	text-align: center !important;
+	width: 30px !important;
+}
+
+.ws-checkbox input {
+	width: auto !important;
+	float: none !important;
+}
+
+.ws-group {
+	white-space: nowrap; /*强制不换行*/
+}
+
+td.ws-group {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+/*分列拖拽*/
+.ws-column {
+	padding-bottom: 100px;
+	float: left;
+}
+
+.ws-column>div {
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+.ws-column .ui-sortable-placeholder {
+	border: 1px dotted black;
+	visibility: visible !important;
+	height: 50px !important;
+}
+
+.ws-column .ui-sortable-placeholder * {
+	visibility: hidden;
+}
+
+/*验证出错提示*/
+label.error {
+	padding-left: 16px;
+	padding-bottom: 2px;
+	font-weight: bold;
+	color: red;
+}
+
+/*form控件*/
+.ws-widget-form {
+	overflow-x: auto;
+	background-color: white;
+	padding: 10px;
+	word-wrap: break-word;
+	border: 1px #aabdd1 solid;
+}
+
+/*解决form控件表格边框颜色冲突*/
+.ws-widget-form td,.ws-widget-form th,.ws-widget-form table {
+	border: 1px solid #000 !important;
+}
+
+.ws-widget-form p {
+	line-height: 1em;
+}
+
+.ws-widget-form textarea {
+	width: 60px;
+	height: 20px;
+	font-size: 12px;
+	color: #555;
+	border: 0;
+	background-color: #DBEEF3;
+}
+
+/*codemirror样式*/
+.CodeMirror {
+	line-height: normal !important;
+}
+
+.CodeMirror-fullscreen {
+	line-height: normal;
+	display: block;
+	position: fixed !important;
+	top: 0;
+	left: 0;
+	width: 100%;
+	min-height: 100%;
+	z-index: 9999;
+	border: 1px #aabdd1 solid;
+}
+
+.chosen {
+	/* This is the only width setting you'll need to change. */
+	width: 200px;
+}
+
+.chzn-container a,.chzn-container li {
+	color: #333333 !important;
+	text-align: left;
+}
+
+/*弹出框中箭头不出现的问题*/
+span.tmpzTreeMove_arrow {
+	z-index: 999;
+}
+
+/*消息关闭页面关闭按钮*/
+a.ui-corner-all.msgPage {
+	float: right;
+	position: absolute;
+	right: 10px;
+	top: 15px;
+	cursor: pointer;
+}

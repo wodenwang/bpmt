@@ -1,0 +1,227 @@
+<project name="dbbase" default="default" basedir=".">
+
+	<import file="${basedir}/common.xml" />
+	<property file="${installation.conf.dir}/jdbc.properties" />
+	<property name="sql.temp.dir" value="${java.io.tmpdir}/sql-tmp" />
+
+	<property name="jdbcfile" value="${installation.tools.conf.dir}/jdbc.properties" />
+
+	<path id="database.path">
+		<pathelement location="${installation.database.dir}" />
+	</path>
+
+	<path id="tools.jdbc.properties.path">
+		<pathelement location="${installation.tools.conf.dir}/jdbc.properties" />
+	</path>
+
+	<macrodef name="get-default-database-port">
+		<attribute name="dbtype" />
+		<sequential>
+			<River-Property addproperty="database.port.default" value="${default.port.@{dbtype}}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="get-jdbc-url">
+		<attribute name="dbtype" />
+		<attribute name="dbhost" />
+		<attribute name="dbport" />
+		<attribute name="dbname" />
+		<sequential>
+			<River-IfElse>
+				<If property="dbtype" operator="==" value="sqlserver2005">
+					<River-Property addproperty="jdbc.url" value="${jdbc.url.@{dbtype}}//@{dbhost}:@{dbport};DatabaseName=@{dbname}" />
+				</If>
+				<ElseIf property="dbtype" operator="==" value="sqlserver2008">
+					<River-Property addproperty="jdbc.url" value="${jdbc.url.@{dbtype}}//@{dbhost}:@{dbport};DatabaseName=@{dbname}" />
+				</ElseIf>
+				<ElseIf property="dbtype" operator="==" value="oracle">
+					<property name="oracle-host" value="@{dbhost}" />
+					<River-Property addproperty="jdbc.url" value="${jdbc.url.@{dbtype}}//&#64;${oracle-host}:@{dbport}/@{dbname}" />
+				</ElseIf>
+				<!--
+				<ElseIf property="dbtype" operator="==" value="h2">
+					<River-Property addproperty="jdbc.url" value="${jdbc.url.@{dbtype}}database/riversoft;MODE=Oracle" />
+					
+					<propertyregex property="jdbc.url" input="${jdbc.url.@{dbtype}}${installation.dir}/database/riversoft;MODE=Oracle" regexp="\\" replace="/" global="true" />
+					
+				</ElseIf>
+				-->
+				<Else>
+					<River-Property addproperty="jdbc.url" value="${jdbc.url.@{dbtype}}//@{dbhost}:@{dbport}/@{dbname}" />
+				</Else>
+			</River-IfElse>
+			<River-Property addproperty="database.port.default" value="${default.port.@{dbtype}}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="configue-db-connection">
+		<sequential>
+			<River-Menu addproperty="dbtype" choices="mysql, oracle, sqlserver2005, sqlserver2008, postgresql" prompt="请选择数据库类型:" save="false" />
+			<echo message="${dbtype}" />
+
+			<get-default-database-port dbtype="${dbtype}" />
+
+			<River-Input prompt="请输入数据库IP地址:" addproperty="dbhost" save="false" defaultValue="localhost" />
+			<echo message="${dbhost}" />
+
+			<River-Input prompt="请输入数据库端口号:" addproperty="dbport" save="false" numeric="true" defaultValue="${database.port.default}" />
+			<echo message="${dbport}" />
+
+			<River-Input prompt="请输入数据库名称:" addproperty="dbname" save="false" />
+			<echo message="${dbname}" />
+
+			<River-Input prompt="请输入访问数据库的用户名:" addproperty="dbuser" save="false" />
+			<echo message="${dbuser}" />
+
+			<River-Input prompt="请输入访问数据库的密码:" addproperty="dbpwd" save="false" defaultValue="${dbuser}" />
+			<echo message="${dbpwd}" />
+
+			<write-db-connection dbtype="${dbtype}" dbhost="${dbhost}" dbport="${dbport}" dbname="${dbname}" dbuser="${dbuser}" dbpwd="${dbpwd}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="write-db-connection">
+		<attribute name="dbtype" />
+		<attribute name="dbhost" />
+		<attribute name="dbport" />
+		<attribute name="dbname" />
+		<attribute name="dbuser" />
+		<attribute name="dbpwd" />
+		<sequential>
+			<get-jdbc-url dbtype="@{dbtype}" dbhost="@{dbhost}" dbport="@{dbport}" dbname="@{dbname}" />
+			<River-Property addproperty="jdbc.driver" value="${jdbc.driver.@{dbtype}}" />
+
+			<echo message="jdbc driver: ${jdbc.driver}" />
+			<echo message="jdbc url: ${jdbc.url}" />
+			<River-OJDBC driver="${jdbc.driver}" url="${jdbc.url}" resultflag="database.connection.test.result" username="@{dbuser}" password="@{dbpwd}" />
+			<River-IfElse>
+				<If property="database.connection.test.result" operator="!=" value="true">
+					<River-Menu prompt="" choices="重新输入, 再次尝试连接" addproperty="database.install.reenter.data" />
+					<River-IfElse>
+						<If property="database.install.reenter.data" operator="==" value="再次尝试连接">
+							<write-db-connection dbtype="@{dbtype}" dbhost="@{dbhost}" dbport="@{dbport}" dbname="@{dbname}" dbuser="@{dbuser}" dbpwd="@{dbpwd}" />
+						</If>
+						<Else>
+							<configue-db-connection />
+						</Else>
+					</River-IfElse>
+				</If>
+				<Else>
+					<echo file="${installation.conf.dir}/jdbc.properties">###### jdbc connection settings ######${line.separator}</echo>
+					<echo file="${installation.conf.dir}/jdbc.properties" append="true">database.type=@{dbtype}${line.separator}</echo>
+					<echo file="${installation.conf.dir}/jdbc.properties" append="true">jdbc.driverClassName=${jdbc.driver}${line.separator}</echo>
+					<echo file="${installation.conf.dir}/jdbc.properties" append="true">jdbc.url=${jdbc.url}${line.separator}</echo>
+					<echo file="${installation.conf.dir}/jdbc.properties" append="true">jdbc.username=@{dbuser}${line.separator}</echo>
+					<echo file="${installation.conf.dir}/jdbc.properties" append="true">jdbc.password=@{dbpwd}${line.separator}</echo>
+					<echo file="${installation.conf.dir}/jdbc.properties" append="true">hibernate.dialect=${hibernate.dialect.@{dbtype}}${line.separator}</echo>
+					<echo file="${installation.conf.dir}/quartz.properties" append="true">org.quartz.jobStore.driverDelegateClass=${quartz.jobStore.dialect.@{dbtype}}${line.separator}</echo>
+				</Else>
+			</River-IfElse>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="perform-sql-script">
+		<attribute name="jdbcDriver" />
+		<attribute name="jdbcUrl" />
+		<attribute name="jdbcUser" />
+		<attribute name="jdbcPwd" />
+		<attribute name="sqlFile" />
+		<sequential>
+			<sql driver="@{jdbcDriver}" url="@{jdbcUrl}" userid="@{jdbcUser}" password="@{jdbcPwd}" expandProperties="true" encoding="utf8">
+				<transaction src="@{sqlFile}" />
+			</sql>
+		</sequential>
+	</macrodef>
+
+	<target name="create-model" description="Create tables and views from a model (Ant internal)">
+		<fail unless="model.sql.zip" message="model.sql.zip not set" />
+
+		<echo message="创建临时目录:${sql.temp.dir}..." />
+		<mkdir dir="${sql.temp.dir}" />
+		<echo message="正在解压ddl文件到临时目录..." />
+		<unzip src="${model.sql.zip}" dest="${sql.temp.dir}">
+			<patternset>
+				<include name="**/${database.type}/*.sql" />
+			</patternset>
+		</unzip>
+		<echo message="调用ant执行数据库脚本..." />
+		<antcall target="run-sql-script">
+			<param name="sql.file" value="${sql.temp.dir}/${database.type}/create_model.sql" />
+		</antcall>
+		<delete dir="${sql.temp.dir}" verbose="true" />
+	</target>
+
+	<target name="drop-model" description="Drop tables and views from a model (Ant internal)">
+		<fail unless="model.sql.zip" message="model.sql.zip not set" />
+
+		<mkdir dir="${sql.temp.dir}" />
+		<unzip src="${model.sql.zip}" dest="${sql.temp.dir}">
+			<patternset>
+				<include name="**/${database.type}/*.sql" />
+			</patternset>
+		</unzip>
+		<antcall target="run-sql-script">
+			<param name="sql.file" value="${sql.temp.dir}/${database.type}/drop_model.sql" />
+		</antcall>
+		<delete dir="${sql.temp.dir}" verbose="true" />
+	</target>
+
+	<target name="-check-db-properties">
+		<description>Check JDBC parameters are set</description>
+		<fail unless="database.type" message="database.type not set" />
+		<fail unless="driverClassName" message="driverClassName not set" />
+		<fail unless="url" message="url not set" />
+		<fail unless="username" message="username not set" />
+		<fail unless="password" message="password not set" />
+	</target>
+		
+	<target name="run-sql-script" depends="-check-db-properties" description="Runs a SQL script (Ant internal)">
+		<fail unless="sql.file" message="sql.file not set" />
+		<echo message="开始执行数据库脚本:${sql.file}" />
+		<loadfile srcfile="${sql.file}" property="sql.content" />
+		<echo message="${sql.content}" />
+		<sql driver="${driverClassName}" url="${url}" userid="${username}" password="${password}" expandProperties="true" encoding="utf8">
+
+			<transaction src="${sql.file}" />
+		</sql>
+	</target>
+
+	<target name="showhelp">
+		<!--implement in child -->
+	</target>
+
+	<target name="copyconf">
+		<echo file="${jdbcfile}">###### jdbc connection settings ######${line.separator}</echo>
+		<echo file="${jdbcfile}" append="true">driverClassName=${jdbc.driverClassName}${line.separator}</echo>
+		<if>
+			<contains string="${jdbc.url}" substring="jdbc:h2:database" />
+			<then>
+				<pathconvert property="dtabasedir" refid="database.path" />
+				<propertyregex property="resolved.dtabasedir" input="${dtabasedir}" regexp="\\" replace="/" global="true" defaultValue="${dtabasedir}" />
+				<propertyregex property="resolved.jdbc.url" input="${jdbc.url}" regexp="jdbc:h2:database" replace="jdbc:h2:${resolved.dtabasedir}" global="true" />
+				<echo file="${jdbcfile}" append="true">url=${resolved.jdbc.url}${line.separator}</echo>
+			</then>
+			<else>
+				<echo file="${jdbcfile}" append="true">url=${jdbc.url}${line.separator}</echo>
+			</else>
+		</if>
+		<echo file="${jdbcfile}" append="true">username=${jdbc.username}${line.separator}</echo>
+		<echo file="${jdbcfile}" append="true">password=${jdbc.password}${line.separator}</echo>
+        <echo file="${jdbcfile}" append="true">db=${database.type}${line.separator}</echo>
+	</target>
+
+	<target name="-init">
+		<antcall target="showhelp" />
+		<antcall target="copyconf" />
+		<loadproperties srcFile="${jdbcfile}"/>
+	</target>
+
+	<target name="default" depends="-init" description="Default target.">
+		<antcall target="maintarget" />
+	</target>
+
+	<target name="maintarget">
+		<!--implement in child -->
+	</target>
+
+</project>

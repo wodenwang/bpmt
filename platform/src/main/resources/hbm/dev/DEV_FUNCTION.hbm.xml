@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="DevFunction" table="DEV_FUNCTION">
+    <cache usage="read-write" />
+    <comment>自定义函数</comment>
+
+    <id name="functionKey" type="java.lang.String">
+      <column name="FUNCTION_KEY" length="100" not-null="true">
+        <comment>函数名</comment>
+      </column>
+    </id>
+
+    <property name="catelog" type="java.lang.String">
+      <column name="CATELOG" length="100" not-null="true">
+        <comment>函数类型</comment>
+      </column>
+    </property>
+
+    <property name="functionType" type="java.lang.Integer">
+      <column name="FUNCTION_TYPE" length="8" not-null="true">
+        <comment>验证脚本类型</comment>
+      </column>
+    </property>
+
+    <property name="functionScript" type="text">
+      <column name="FUNCTION_SCRIPT"  not-null="true">
+        <comment>验证脚本</comment>
+      </column>
+    </property>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <property name="example" type="java.lang.String">
+      <column name="EXAMPLE" >
+        <comment>示例</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+  </class>
+</hibernate-mapping>

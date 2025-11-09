@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+X-River-Build-Order: 20
+Archiver-Version: Plexus Archiver
+X-River-Artifact: platform
+Built-By: mi
+Created-By: Apache Maven 3.6.3
+Build-Jdk: 1.8.0_261
+

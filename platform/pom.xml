@@ -1,0 +1,699 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>com.riversoft</groupId>
+    <version>3.4.1-SNAPSHOT</version>
+    <relativePath>../parent/</relativePath>
+  </parent>
+  <artifactId>platform</artifactId>
+  <packaging>war</packaging>
+  <name>RiverSoft Platform</name>
+
+  <properties>
+    <BuildOrder>20</BuildOrder>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.riversoft</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.riversoft</groupId>
+      <artifactId>magic-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.riversoft</groupId>
+      <artifactId>dbtools</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Ant -->
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
+
+    <!-- Spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.amqp</groupId>
+      <artifactId>spring-rabbit</artifactId>
+    </dependency>
+
+    <!-- quartz -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+    </dependency>
+
+    <!-- hibernate -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-proxool</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.hazelcast</groupId>
+      <artifactId>hazelcast</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.hazelcast</groupId>
+      <artifactId>hazelcast-hibernate4</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.hazelcast</groupId>
+      <artifactId>hazelcast-spring</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+    </dependency>
+
+    <!-- boneCP data pool -->
+    <dependency>
+      <groupId>com.jolbox</groupId>
+      <artifactId>bonecp</artifactId>
+    </dependency>
+
+    <!-- commons -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jodd</groupId>
+      <artifactId>jodd-mail</artifactId>
+    </dependency>
+
+    <!-- LOGGING begin -->
+    <!-- slf4j -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <!-- logback -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+
+    <!-- log4j 实际调用slf4j -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+    </dependency>
+
+    <!-- common-logging 实际调用slf4j -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+
+    <!-- java.util.logging 实际调用slf4j -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+    </dependency>
+    <!-- logging end -->
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+    </dependency>
+
+    <!-- activiti -->
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-spring</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-explorer</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>vaadin</artifactId>
+          <groupId>com.vaadin</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>dcharts-widget</artifactId>
+          <groupId>org.vaadin.addons</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>activiti-simple-workflow</artifactId>
+          <groupId>org.activiti</groupId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-modeler</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.uuid</groupId>
+      <artifactId>java-uuid-generator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sourceforge.jtds</groupId>
+      <artifactId>jtds</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+    </dependency>
+
+    <!-- servlet -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.websocket</groupId>
+      <artifactId>javax.websocket-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>jstl-impl</artifactId>
+      <version>1.2</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>servlet-api</artifactId>
+          <groupId>javax.servlet</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jsp-api</artifactId>
+          <groupId>javax.servlet.jsp</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jstl-api</artifactId>
+          <groupId>javax.servlet.jsp.jstl</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jumpmind.symmetric</groupId>
+      <artifactId>symmetric-util</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jumpmind.symmetric</groupId>
+      <artifactId>symmetric-db</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jumpmind.symmetric</groupId>
+      <artifactId>symmetric-jdbc</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- itext -->
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itextpdf</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itext-asian</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>net.coobird</groupId>
+      <artifactId>thumbnailator</artifactId>
+    </dependency>
+
+    <!-- jdbc drivers -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft</groupId>
+      <artifactId>sqlserver-jdbc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc6</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.perf4j</groupId>
+      <artifactId>perf4j</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.artofsolving.jodconverter</groupId>
+      <artifactId>jodconverter-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>cn.com.riversoft</groupId>
+      <artifactId>weixin-qydev</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>cn.com.riversoft</groupId>
+      <artifactId>weixin-mp</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>cn.com.riversoft</groupId>
+      <artifactId>weixin-pay</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>cn.com.riversoft</groupId>
+      <artifactId>weixin-open</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>cn.com.riversoft</groupId>
+      <artifactId>weixin-app</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.taobao</groupId>
+      <artifactId>taobao-sdk</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>fluent-hc</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.kenglxn.QRGen</groupId>
+      <artifactId>javase</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.kenglxn.QRGen</groupId>
+      <artifactId>core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>javase</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jayway.restassured</groupId>
+      <artifactId>rest-assured</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+    </dependency>
+
+    <!-- redis client -->
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-redis</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+
+      <!-- eclipse plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <configuration>
+          <path>/</path>
+          <useTestClasspath>true</useTestClasspath>
+          <uriEncoding>UTF-8</uriEncoding>
+          <webapps>
+            <webapp>
+              <groupId>com.riversoft</groupId>
+              <artifactId>ueditor</artifactId>
+              <version>${ueditor.version}</version>
+              <type>war</type>
+              <asWebapp>true</asWebapp>
+            </webapp>
+          </webapps>
+        </configuration>
+      </plugin>
+
+      <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> <executions> 
+        <execution> <id>attach-javadocs</id> <phase>package</phase> <goals> <goal>jar</goal> </goals> </execution> </executions> 
+        <configuration> <excludePackageNames> com.riversoft.module:com.riversoft.platform:com.riversoft.flow: com.riversoft.scheduler:com.riversoft.widget:com.riversoft.wx:com.riversoft.web 
+        </excludePackageNames> </configuration> </plugin> -->
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-war</id>
+            <phase>package</phase>
+            <goals>
+              <goal>war</goal>
+            </goals>
+            <configuration>
+              <archiveClasses>true</archiveClasses>
+              <attachClasses>true</attachClasses>
+              <archive>
+                <manifestEntries>
+                  <X-River-Artifact>${project.artifactId}</X-River-Artifact>
+                  <X-River-Build-Order>${BuildOrder}</X-River-Build-Order>
+                </manifestEntries>
+              </archive>
+              <outputFileNameMapping>@{artifactId}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>lightly-war</id>
+            <phase>package</phase>
+            <goals>
+              <goal>war</goal>
+            </goals>
+            <configuration>
+              <classifier>lightly</classifier>
+              <archiveClasses>true</archiveClasses>
+              <archive>
+                <manifestEntries>
+                  <X-River-Artifact>${project.artifactId}</X-River-Artifact>
+                  <X-River-Build-Order>${BuildOrder}</X-River-Build-Order>
+                </manifestEntries>
+              </archive>
+              <packagingExcludes>**/*.jar</packagingExcludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-a-jar</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                  <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                </manifest>
+                <manifestEntries>
+                  <X-River-Artifact>${project.artifactId}</X-River-Artifact>
+                  <X-River-Build-Order>${BuildOrder}</X-River-Build-Order>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-jar-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
+                  <type>jar</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/assembly-hbm.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build 
+          itself. -->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>
+                      org.apache.maven.plugins
+                    </groupId>
+                    <artifactId>
+                      maven-dependency-plugin
+                    </artifactId>
+                    <versionRange>[2.9,)</versionRange>
+                    <goals>
+                      <goal>unpack-dependencies</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>patch</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.3</version>
+            <executions>
+              <execution>
+                <id>default-war</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>war</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <archiveClasses>true</archiveClasses>
+              <attachClasses>true</attachClasses>
+              <packagingExcludes>
+                WEB-INF/lib/*.jar
+              </packagingExcludes>
+              <archive>
+                <manifestEntries>
+                  <X-River-Build-Order>${BuildOrder}</X-River-Build-Order>
+                </manifestEntries>
+              </archive>
+              <outputFileNameMapping>@{artifactId}@@{dashClassifier?}@.@{extension}@</outputFileNameMapping>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

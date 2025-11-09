@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="WxCommand" table="WX_COMMAND">
+    <cache usage="read-write" />
+    <comment>微信事件处理器</comment>
+
+    <id name="commandKey" type="java.lang.String">
+      <column name="COMMAND_KEY" length="100" not-null="true">
+        <comment>主键KEY</comment>
+      </column>
+    </id>
+
+    <property name="createUid" type="java.lang.String">
+      <column name="CREATE_UID" length="100" not-null="true">
+        <comment>创建人</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="busiName" type="java.lang.String">
+      <column name="BUSI_NAME" length="200" not-null="true">
+        <comment>展示名</comment>
+      </column>
+    </property>
+
+    <property name="description" type="text">
+      <column name="DESCRIPTION">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <property name="mpFlag" type="java.lang.Integer">
+      <column name="MP_FLAG" length="8" not-null="true" default="0">
+        <comment>公众号类型.1:公众号mp;0:企业号qy.</comment>
+      </column>
+    </property>
+
+    <property name="supportType" type="java.lang.String">
+      <column name="SUPPORT_TYPE" length="100">
+        <comment>支持类型.参考:WxCommandSupportType</comment>
+      </column>
+    </property>
+
+    <property name="logicType" type="java.lang.Integer">
+      <column name="LOGIC_TYPE" length="8" not-null="true">
+        <comment>脚本</comment>
+      </column>
+    </property>
+
+    <property name="logicScript" type="text">
+      <column name="LOGIC_SCRIPT" not-null="true">
+        <comment>脚本</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

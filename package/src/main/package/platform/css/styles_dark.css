@@ -1,0 +1,11 @@
+body {
+	background-color: #000 !important;
+}
+
+.ztree li a {
+	color: #fff !important;
+}
+
+.ztree li a.curSelectedNode {
+	color: #000 !important;
+}

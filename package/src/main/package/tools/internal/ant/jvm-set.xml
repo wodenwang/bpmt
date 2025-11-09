@@ -1,0 +1,26 @@
+<project name="jvm" default="default" basedir=".">
+
+    <import file="${basedir}/common.xml" />
+
+    <target name="showhelp">
+        <echo message="使用说明:" />
+        <echo message="0.本工具用于设置JVM参数。" />
+        <echo message="1.更多信息请参阅文档。" />
+    </target>
+
+    <target name="-init">
+        <antcall target="showhelp" />
+    </target>
+
+    <target name="default" depends="-init" description="Default target.">
+        <River-Menu addproperty="option" choices="最小资源模式, 最优资源模式" prompt="请选择:" save="false" />
+        <River-IfElse>
+            <If property="option" operator="==" value="最优资源模式">
+                <River-JVM-Set installationRoot="${installation.dir}" option="max"/>
+            </If>
+            <Else>
+                <River-JVM-Set installationRoot="${installation.dir}" option="min"/>
+            </Else>
+        </River-IfElse>
+    </target>
+</project>

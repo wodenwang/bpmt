@@ -1,0 +1,81 @@
+<table class="ws-table">
+	<tr>
+		<th colspan="3">动态入参API(JSON格式)</th>
+	</tr>
+	<tr>
+		<th style="width: 10px;">名称</th>
+		<th style="width: 10px;">类型</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">main</td>
+		<td class="center">boolean</td>
+		<td>订单列表页(含查询).</td>
+	</tr>
+	<tr>
+		<td class="center">list</td>
+		<td class="center">boolean</td>
+		<td>订单列表页.</td>
+	</tr>
+	<tr>
+		<td class="center">remove</td>
+		<td class="center">boolean</td>
+		<td>删除草稿箱的订单,注:处理订单时配合ordId使用.</td>
+	</tr>
+	<tr>
+		<td class="center">form</td>
+		<td class="center">boolean</td>
+		<td>跳入到表单页,注:处理订单时配合ordId使用,发起新流程时无需其他参数.</td>
+	</tr>
+	<tr>
+		<td class="center">detail</td>
+		<td class="center">boolean</td>
+		<td>是否直接跳转到数据明细页,注:此项必须与ordId配合使用,也可配合ordFlag使用</td>
+	</tr>
+	<tr>
+		<td class="center">picture</td>
+		<td class="center">boolean</td>
+		<td>是否跳转到流程图展示页,注:此项必须与ordId配合使用.</td>
+	</tr>
+	<tr>
+		<td class="center">all</td>
+		<td class="center">boolean</td>
+		<td>是否采用"所有订单"界面.此项默认true.</td>
+	</tr>
+	<tr>
+		<td class="center">ordId</td>
+		<td class="center">string</td>
+		<td>订单号.</td>
+	</tr>
+	<tr>
+		<td class="center">ordFlag</td>
+		<td class="center">boolean</td>
+		<td>查看时是否使用"查看订单"界面,不设置此项默认为false.当detail为true时生效.</td>
+	</tr>
+	<tr>
+		<td class="center">type</td>
+		<td class="center">string</td>
+		<td>all为true时使用.可选值有:<br /> myTask:我的待办任务.</br>shareTask:我的群组任务.</br> myOrder:我的发起.</br>draftOrder:我的暂存.</br>relateOrder:我的经办.</br>closeOrder:我的完成.</br>
+		</td>
+	</tr>
+	<tr>
+		<td class="center">field</td>
+		<td class="center">string</td>
+		<td>排序字段</td>
+	</tr>
+	<tr>
+		<td class="center">dir</td>
+		<td class="center">string</td>
+		<td>排序方向,可选值:asc/desc.</td>
+	</tr>
+	<tr>
+		<td class="center">title</td>
+		<td class="center">string</td>
+		<td>标题.</td>
+	</tr>
+	<tr>
+		<td class="center">pageLimit</td>
+		<td class="center">number</td>
+		<td>每页记录数.</td>
+	</tr>
+</table>

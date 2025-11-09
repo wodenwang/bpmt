@@ -1,0 +1,648 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>com.riversoft</groupId>
+    <version>3.4.1-SNAPSHOT</version>
+    <relativePath>../parent/</relativePath>
+  </parent>
+  <artifactId>package</artifactId>
+  <name>RiverSoft Package</name>
+  <packaging>pom</packaging>
+
+  <properties>
+    <package.version>win32</package.version>
+    <jdk.version>1.7-65</jdk.version>
+    <tomcat.version>7.0.61</tomcat.version>
+    <ant.version>1.9.2</ant.version>
+    <fonts.version>1.1.0</fonts.version>
+    <ueditor.version>1.4.3</ueditor.version>
+    <jre-security-jar.version>1.0</jre-security-jar.version>
+
+    <foundations.dir>${basedir}/src/main/foundations</foundations.dir>
+    <package.dir>${basedir}/src/main/package</package.dir>
+    <common.dir>${package.dir}/common</common.dir>
+
+    <ant.install.dir>${common.dir}/ant</ant.install.dir>
+
+    <jdk.install.dir>${common.dir}/jdk</jdk.install.dir>
+    <jdk.win32.install.dir>${jdk.install.dir}/win32</jdk.win32.install.dir>
+    <jdk.win64.install.dir>${jdk.install.dir}/win64</jdk.win64.install.dir>
+    <jdk.linux32.install.dir>${jdk.install.dir}/linux32</jdk.linux32.install.dir>
+    <jdk.linux64.install.dir>${jdk.install.dir}/linux64</jdk.linux64.install.dir>
+    
+    <fonts.linux32.install.dir>${jdk.linux32.install.dir}/jre/lib/fonts</fonts.linux32.install.dir>
+    <fonts.linux64.install.dir>${jdk.linux64.install.dir}/jre/lib/fonts</fonts.linux64.install.dir>
+
+    <jre-security-jar.win32.install.dir>${jdk.install.dir}/win32/jre/lib/security</jre-security-jar.win32.install.dir>
+    <jre-security-jar.win64.install.dir>${jdk.install.dir}/win64/jre/lib/security</jre-security-jar.win64.install.dir>
+    <jre-security-jar.linux32.install.dir>${jdk.install.dir}/linux32/jre/lib/security</jre-security-jar.linux32.install.dir>
+    <jre-security-jar.linux64.install.dir>${jdk.install.dir}/linux64/jre/lib/security</jre-security-jar.linux64.install.dir>
+
+    <tomcat.install.dir>${common.dir}/tomcat</tomcat.install.dir>
+
+    <catalina_base.dir>${common.dir}/CATALINA_BASE</catalina_base.dir>
+    <platform.dir>${package.dir}/platform</platform.dir>
+    <ueditor.dir>${package.dir}/ueditor</ueditor.dir>
+    <database.dir>${package.dir}/database</database.dir>
+    <tools.dir>${package.dir}/tools</tools.dir>
+	<ddl.dir>${tools.dir}/internal/files/ddl</ddl.dir>
+	<model.sql.zip>${ddl.dir}/hbm2ddl.zip</model.sql.zip>
+	<driverClassName>org.h2.Driver</driverClassName>
+	<database.url>jdbc:h2:${database.dir}/river;MODE=Oracle</database.url>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${platform.dir}/</directory>
+            </fileset>
+            <fileset>
+              <directory>${ueditor.dir}/</directory>
+            </fileset>
+            <fileset>
+              <directory>${jdk.install.dir}/</directory>
+            </fileset>
+            <fileset>
+              <directory>${ant.install.dir}/</directory>
+            </fileset>
+            <fileset>
+              <directory>${tomcat.install.dir}/</directory>
+            </fileset>
+            <fileset>
+              <directory>${tools.dir}/</directory>
+            </fileset>
+			<fileset>
+              <directory>${database.dir}</directory>
+              <includes>
+                <include>*.db</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-unzip-jdk-win32</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle</groupId>
+                  <artifactId>jdk</artifactId>
+                  <version>${jdk.version}</version>
+                  <type>zip</type>
+                  <classifier>win32</classifier>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${jdk.win32.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-unzip-jdk-win64</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle</groupId>
+                  <artifactId>jdk</artifactId>
+                  <version>${jdk.version}</version>
+                  <type>zip</type>
+                  <classifier>win64</classifier>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${jdk.win64.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-unzip-jdk-linux32</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle</groupId>
+                  <artifactId>jdk</artifactId>
+                  <version>1.7-65</version>
+                  <type>tar.gz</type>
+                  <classifier>linux-i586</classifier>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${jdk.linux32.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-unzip-jdk-linux64</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle</groupId>
+                  <artifactId>jdk</artifactId>
+                  <version>1.7-65</version>
+                  <type>tar.gz</type>
+                  <classifier>linux-x64</classifier>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${jdk.linux64.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          
+          <execution>
+              <id>copy-unzip-ant</id>
+              <phase>process-resources</phase>
+              <goals>
+                  <goal>unpack</goal>
+              </goals>
+              <configuration>
+                  <artifactItems>
+                      <artifactItem>
+                          <groupId>org.apache</groupId>
+                          <artifactId>ant</artifactId>
+                          <version>${ant.version}</version>
+                          <type>tar.gz</type>
+                          <classifier>bin</classifier>
+                          <overWrite>true</overWrite>
+                          <outputDirectory>${ant.install.dir}</outputDirectory>
+                      </artifactItem>
+                  </artifactItems>
+              </configuration>
+          </execution>
+          
+          <execution>
+            <id>copy-unzip-fonts-linux32</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.riversoft</groupId>
+                  <artifactId>fonts</artifactId>
+                  <version>${fonts.version}</version>
+                  <type>zip</type>
+                  <classifier>bin</classifier>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${fonts.linux32.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          
+          <execution>
+              <id>copy-unzip-fonts-linux64</id>
+              <phase>process-resources</phase>
+              <goals>
+                  <goal>unpack</goal>
+              </goals>
+              <configuration>
+                  <artifactItems>
+                      <artifactItem>
+                          <groupId>com.riversoft</groupId>
+                          <artifactId>fonts</artifactId>
+                          <version>${fonts.version}</version>
+                          <type>zip</type>
+                          <classifier>bin</classifier>
+                          <overWrite>true</overWrite>
+                          <outputDirectory>${fonts.linux64.install.dir}</outputDirectory>
+                      </artifactItem>
+                  </artifactItems>
+              </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-unzip-jre-security-jar-win32</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle</groupId>
+                  <artifactId>jre-security-jar</artifactId>
+                  <version>${jre-security-jar.version}</version>
+                  <type>zip</type>
+                  <classifier>bin</classifier>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${jre-security-jar.win32.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-unzip-jre-security-jar-win64</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle</groupId>
+                  <artifactId>jre-security-jar</artifactId>
+                  <version>${jre-security-jar.version}</version>
+                  <type>zip</type>
+                  <classifier>bin</classifier>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${jre-security-jar.win64.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-unzip-jre-security-jar-linux32</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle</groupId>
+                  <artifactId>jre-security-jar</artifactId>
+                  <version>${jre-security-jar.version}</version>
+                  <type>zip</type>
+                  <classifier>bin</classifier>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${jre-security-jar.linux32.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-unzip-jre-security-jar-linux64</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.oracle</groupId>
+                  <artifactId>jre-security-jar</artifactId>
+                  <version>${jre-security-jar.version}</version>
+                  <type>zip</type>
+                  <classifier>bin</classifier>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${jre-security-jar.linux64.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-unzip-ueditor</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.riversoft</groupId>
+                  <artifactId>ueditor</artifactId>
+                  <version>${ueditor.version}</version>
+                  <type>war</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${ueditor.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-unzip-tomcat</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.apache</groupId>
+                  <artifactId>tomcat</artifactId>
+                  <version>${tomcat.version}</version>
+                  <type>zip</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${tomcat.install.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-unzip-platform</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.riversoft</groupId>
+                  <artifactId>platform</artifactId>
+                  <version>${project.version}</version>
+                  <type>war</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${platform.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-platform-lib</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${platform.dir}/WEB-INF/lib</outputDirectory>
+              <stripVersion>true</stripVersion>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.riversoft</groupId>
+                  <artifactId>platform</artifactId>
+                  <version>${project.version}</version>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-tools</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.riversoft</groupId>
+                  <artifactId>tools</artifactId>
+                  <version>${project.version}</version>
+                  <type>zip</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${tools.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+		  <execution>
+			<id>prepare-h2-database</id>
+            <phase>prepare-package</phase>
+            <configuration>
+              <target>
+				<taskdef resource="net/sf/antcontrib/antlib.xml" classpathref="maven.plugin.classpath" />
+				<property name="sql.temp.dir" value="${java.io.tmpdir}/sql-tmp" />
+				<property name="jdbc.properties.file" value="${java.io.tmpdir}/sql-tmp/jdbc.properties" />
+				
+				<path id="import.excelfiles.path">
+					<fileset dir="${database.dir}">
+						<include name="**/*.xlsx" />
+						<include name="**/*.xls" />
+					</fileset>
+				</path>
+	
+				<delete dir="${sql.temp.dir}" />
+				<mkdir dir="${sql.temp.dir}" />
+				
+				<echo message="${model.sql.zip}" />
+				<unzip src="${model.sql.zip}" dest="${sql.temp.dir}">
+					<patternset>
+						<include name="**/*.sql" />
+					</patternset>
+				</unzip>
+
+				<propertyregex property="resolved.databasedir" input="${database.url}" regexp="\\" replace="/" global="true" defaultValue="${database.url}" />
+			
+				<echo message="database url: ${database.url}" />
+				<echo message="database resolved url: ${resolved.databasedir}" />
+				<sql driver="${driverClassName}" url="${resolved.databasedir}" userid="sa" password="" expandProperties="true" encoding="utf8">
+					<transaction src="${sql.temp.dir}/h2/create_model.sql" />
+				</sql>
+                <sql driver="${driverClassName}" url="${resolved.databasedir}" userid="sa" password="" expandProperties="true" encoding="utf8">
+                  <transaction src="${ddl.dir}/quartz-ddl/quartz-h2-create.sql" />
+                </sql>
+
+				<echo file="${jdbc.properties.file}">###### jdbc connection settings ######${line.separator}</echo>
+				<echo file="${jdbc.properties.file}" append="true">driverClassName=org.h2.Driver${line.separator}</echo>
+				<echo file="${jdbc.properties.file}" append="true">url=${resolved.databasedir}${line.separator}</echo>
+				<echo file="${jdbc.properties.file}" append="true">username=sa${line.separator}</echo>
+				<echo file="${jdbc.properties.file}" append="true">password=${line.separator}</echo>
+				
+				<loadresource property="debug.message">
+					<file file="${jdbc.properties.file}" />
+				</loadresource>
+				
+				<pathconvert property="excelpath" refid="import.excelfiles.path" />
+				
+				<echo message="${jdbc.properties.file}" />
+				<echo message="${debug.message}" />
+				<echo message="${excelpath}" />
+				
+				<java classname="com.riversoft.dbtool.export.ImporterMain" classpathref="maven.plugin.classpath" failonerror="true" maxmemory="128m" output="${java.io.tmpdir}/package-db-import.log">
+					<arg value="-c file:///${jdbc.properties.file}" />		
+					<arg value="-f" />
+					<arg value="${excelpath}" />
+					<arg value="-e" />
+					<arg value="-d" />
+					<arg value="-r" />
+				</java> 
+		
+				<delete dir="${sql.temp.dir}" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+		  
+          <execution>
+              <id>do-linux-things</id>
+              <phase>prepare-package</phase>
+              <configuration>
+                  <target>
+                      <echo message="Process Linux specific things:" />
+                      <echo file="${package.dir}/conf/activiti.properties" append="false">activiti.font=simsun</echo>
+                  </target>
+              </configuration>
+              <goals>
+                  <goal>run</goal>
+              </goals>
+          </execution>
+          
+          <execution>
+              <id>do-windows-things</id>
+              <phase>prepare-package</phase>
+              <configuration>
+                  <target>
+                      <echo message="Process Windows specific things:" />
+                      
+                  </target>
+              </configuration>
+              <goals>
+                  <goal>run</goal>
+              </goals>
+          </execution>
+          
+          <execution>
+			<id>prepare-others</id>
+            <phase>prepare-package</phase>
+            <configuration>
+              <target>
+                <touch file="${platform.dir}/WEB-INF/classes/production.properties" />
+				
+				<echo file="${package.dir}/version.txt" append="false">${project.version}</echo>
+				
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.ant</groupId>
+				<artifactId>ant-nodeps</artifactId>
+				<version>1.8.1</version>
+			</dependency>
+			<dependency>
+				<groupId>ant-contrib</groupId>
+				<artifactId>ant-contrib</artifactId>
+				<version>1.0b3</version>
+				<exclusions>
+					<exclusion>
+						<groupId>ant</groupId>
+						<artifactId>ant</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ant</groupId>
+				<artifactId>ant</artifactId>
+				<version>1.8.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ant</groupId>
+				<artifactId>ant-jsch</artifactId>
+				<version>1.8.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.riversoft</groupId>
+				<artifactId>dbtools</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>1.7.5</version>
+			</dependency>
+		</dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-nojdk-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/assembly/assembly-nojdk.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-win32-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/assembly/assembly-win32.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-win64-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/assembly/assembly-win64.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-linux32-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/assembly/assembly-linux32.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-linux64-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/assembly/assembly-linux64.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

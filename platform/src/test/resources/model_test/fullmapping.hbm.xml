@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-mapping auto-import="true" catalog="" default-access="property" default-cascade="none" default-lazy="true" package="" schema="" xmlns="http://www.hibernate.org/xsd/hibernate-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-mapping http://www.hibernate.org/xsd/hibernate-mapping ">
+  <meta attribute="" inherit="true">meta</meta>
+  <identifier-generator class="" name=""/>
+  <typedef class="" name="">
+    <param name="">param</param>
+  </typedef>
+  <filter-def condition="" name="">
+    <filter-param name="" type=""/>
+  </filter-def>
+  <import class="" rename=""/>
+  
+  <class abstract="true" batch-size="" catalog="" check="" discriminator-value="" dynamic-insert="false" dynamic-update="false" entity-name="" lazy="true" mutable="true" name="" node="" optimistic-lock="version" persister="" polymorphism="implicit" proxy="" rowid="" schema="" select-before-update="false" subselect="" table="" where="">
+    <meta attribute="" inherit="true">meta</meta>
+    <subselect>subselect</subselect>
+    <cache include="all" region="" usage="nonstrict-read-write"/>
+    <synchronize table=""/>
+    <comment>comment</comment>
+    <tuplizer class="" entity-mode="dom4j"/>
+    <id access="" column="" length="" name="" node="" type="" unsaved-value="">
+      <meta attribute="" inherit="true">meta</meta>
+      <column check="" default="" index="" length="" name="" not-null="true" precision="" read="" scale="" sql-type="" unique-key="" write="">
+        <comment>comment</comment>
+      </column>
+      <type name="">
+        <param name="">param</param>
+      </type>
+      <generator class="">
+        <param name="">param</param>
+      </generator>
+    </id>
+    <discriminator column="" force="false" formula="" insert="true" length="" not-null="true" type="string">
+      <column check="" default="" index="" length="" name="" not-null="true" precision="" read="" scale="" sql-type="" unique-key="" write="">
+        <comment>comment</comment>
+      </column>
+    </discriminator>
+    <natural-id mutable="false">
+      <property access="" column="" formula="" generated="never" index="" insert="true" lazy="false" length="" name="" node="" not-null="true" optimistic-lock="true" precision="" scale="" type="" unique="false" unique-key="" update="true">
+        <meta attribute="" inherit="true">meta</meta>
+        <column check="" default="" index="" length="" name="" not-null="true" precision="" read="" scale="" sql-type="" unique-key="" write="">
+          <comment>comment</comment>
+        </column>
+        <type name="">
+          <param name="">param</param>
+        </type>
+      </property>
+    </natural-id>
+    <version access="" column="" generated="never" insert="true" name="" node="" type="integer" unsaved-value="undefined">
+      <meta attribute="" inherit="true">meta</meta>
+      <column check="" default="" index="" length="" name="" not-null="true" precision="" read="" scale="" sql-type="" unique-key="" write="">
+        <comment>comment</comment>
+      </column>
+    </version>
+    
+    <property access="" column="" formula="" generated="never" index="" insert="true" lazy="false" length="" name="" node="" not-null="true" optimistic-lock="true" precision="" scale="" type="" unique="false" unique-key="" update="true">
+      <meta attribute="" inherit="true">meta</meta>
+      <column check="" default="" index="" length="" name="" not-null="true" precision="" read="" scale="" sql-type="" unique-key="" write="">
+        <comment>comment</comment>
+      </column>
+      <type name="">
+        <param name="">param</param>
+      </type>
+    </property>
+    
+    <loader query-ref=""/>
+    <sql-insert callable="false" check="none">sql-insert</sql-insert>
+    <sql-update callable="false" check="none">sql-update</sql-update>
+    <sql-delete callable="false" check="none">sql-delete</sql-delete>
+    
+    <filter autoAliasInjection="true" condition="" name="">
+      <aliases alias="" table="">aliases</aliases>
+    </filter>
+    <fetch-profile name="">
+      <fetch association="" entity="" style="join"/>
+    </fetch-profile>
+    <resultset name="">
+      <return-scalar column="" type=""/>
+    </resultset>
+    
+    <query cache-mode="get" cache-region="" cacheable="false" comment="" fetch-size="" flush-mode="always" name="" read-only="true" timeout="">
+      <query-param name="" type=""/>
+    </query>
+    
+  </class>
+  <resultset name="">
+    <return-scalar column="" type=""/>
+  </resultset>
+  <query cache-mode="get" cache-region="" cacheable="false" comment="" fetch-size="" flush-mode="always" name="" read-only="true" timeout="">
+    <query-param name="" type=""/>
+  </query>
+  <fetch-profile name="">
+    <fetch association="" entity="" style="join"/>
+  </fetch-profile>
+  <database-object>
+    <definition class=""/>
+    <dialect-scope name="">dialect-scope</dialect-scope>
+  </database-object>
+</hibernate-mapping>

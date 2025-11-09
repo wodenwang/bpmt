@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	   default-init-method="init">
+
+	<import resource="classpath:applicationContext-hibernate.xml" />
+	<import resource="classpath:applicationContext-scripts.xml" />
+
+	<!-- properties配置 -->
+	<bean id="config" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations" value="classpath*:/*.properties" />
+	</bean>
+
+	<!--测试数据源 -->
+	<bean id="dataSource" parent="abstractDataSource">
+		<property name="driverClass">
+			<value>org.h2.Driver</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>jdbc:h2:mem:riversoft-script-test;DB_CLOSE_DELAY=-1</value>
+		</property>
+		<property name="username">
+			<value>sa</value>
+		</property>
+		<property name="password">
+			<value></value>
+		</property>
+	</bean>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="javax.persistence.validation.mode">none</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.jdbc.batch_versioned_data">true</prop>
+				<prop key="hibernate.jdbc.batch_size">15</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+			</props>
+		</property>
+		<property name="mappingLocations">
+			<list>
+				<value>classpath*:/hbm/**/*.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

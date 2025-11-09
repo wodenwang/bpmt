@@ -1,0 +1,67 @@
+<project name="nginx" default="default" basedir=".">
+
+	<import file="${basedir}/common.xml" />
+	<property name="nginx-conf-template" value="${installation.tools.dir}/internal/files/nginx/nginx.conf"/>
+
+	<macrodef name="change-nginx-port">
+		<sequential>
+			<River-Input prompt="请输入nginx端口:" addproperty="nginx-port" numeric="true" save="false" />
+				<River-IfElse>
+				<If property="nginx-port" operator="&lt;" value="80">
+					<echo message="nginx端口不能小于 80, 请重新输入。" />
+					<change-nginx-port />
+				</If>
+				<Else>
+					<if>
+						<socket server="localhost" port="${nginx-port}"/>
+						<then>
+							<echo message="端口 ${nginx-port} 已经被使用，请重新输入。" />
+							<change-nginx-port />
+						</then>
+						<else>
+							<copy todir="${installation.installer.log.dir}" overwrite="true">
+								<resources>
+									<file file="${nginx-conf-template}"/>
+								</resources>
+							</copy>
+							<replace file ="${installation.installer.log.dir}/nginx.conf" token="HTTP_PORT" value="${nginx-port}"></replace>
+							<replace file ="${installation.installer.log.dir}/nginx.conf" token="DEFAULT_SERVER" value="localhost"></replace>
+							<replace file ="${installation.installer.log.dir}/nginx.conf" token="DEFAULT_PLATFORM_HOME" value="http://localhost:8080"></replace>
+							<copy todir="${installation.nginx.dir}/conf" overwrite="true">
+								<resources>
+									<file file="${installation.installer.log.dir}/nginx.conf"/>
+								</resources>
+							</copy>
+							<echo message="nginx 端口修改成功，新端口号为: ${nginx-port}" />
+						</else>
+					</if>
+				</Else>
+			</River-IfElse>
+		</sequential>
+	</macrodef>
+	
+	<target name="showhelp">
+		<echo message="使用说明:" />
+		<echo message="0.本工具用于更改BPMT Tools 所使用的nginx端口。"/>
+		<echo message="1.nginx默认使用80端口。"/>
+		<echo message="2.更多信息请参阅文档。" />
+	</target>
+
+	<target name="-init">
+		<antcall target="showhelp" />
+	</target>
+	
+	<target name="default" depends="-init" description="Default target.">
+		<River-Menu addproperty="choice" choices="增加虚拟主机映射,更改HTTP端口" prompt="请选择：" save="false" />
+			<River-IfElse>
+				<If property="choice" operator="==" value="增加虚拟主机映射">
+					<echo message="暂时没有实现，转向: 更改HTTP端口" />
+					<change-nginx-port />
+				</If>
+				<Else>
+					<change-nginx-port />
+				</Else>
+			</River-IfElse>
+	</target>
+	
+</project>

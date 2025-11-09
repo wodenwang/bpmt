@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- EasyFrame 代码生成器生成 -->
+<hibernate-mapping>
+  <class entity-name="B" table="B">
+    <composite-id>
+      <key-property name="id" type="java.lang.String">
+        <column name="ID" length="200" />
+      </key-property>
+      <key-property name="fieldKey" type="java.lang.String">
+        <column name="FIELD_KEY" length="200" />
+      </key-property>
+    </composite-id>
+    <property name="valueInteger" type="java.lang.Long">
+      <column name="VALUE_INTEGER" length="20" />
+    </property>
+    <property name="valueDate" type="java.util.Date">
+      <column name="VALUE_DATE" length="23" />
+    </property>
+    <property name="valueFloat" type="java.math.BigDecimal">
+      <column name="VALUE_FLOAT" length="14" />
+    </property>
+    <property name="valueString" type="java.lang.String">
+      <column name="VALUE_STRING" length="1000" />
+    </property>
+  </class>
+</hibernate-mapping>

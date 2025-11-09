@@ -1,0 +1,82 @@
+<table class="ws-table">
+	<tr>
+		<th>描述</th>
+		<td colspan="2">超级富文本编辑框(UEditor)</td>
+	</tr>
+
+	<!-- 固定参数 -->
+	<tr>
+		<th colspan="3">固定参数 API</th>
+	</tr>
+	<tr>
+		<th>序号</th>
+		<th>类型</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">1</td>
+		<td class="center">可选</td>
+		<td>宽度.<br /> 示例1(宽度800像素):ueditor[800px]<br /> 示例2(宽度占外部区域90%):ueditor[90%]
+		</td>
+	</tr>
+	<tr>
+		<td class="center">2</td>
+		<td class="center">可选</td>
+		<td>高度. <br />示例1(宽度600像素,高度400像素):ueditor[600px;400px]<br /> 示例2(宽度使用系统默认值,高度200像素):ueditor[null;200px]
+		</td>
+	</tr>
+	<tr>
+		<td class="center">3</td>
+		<td class="center">可选</td>
+		<td>工具栏模式. <br />normal(默认值):普通工具栏<br />dev:开发工具栏<br />mini:最小工具栏
+		</td>
+	</tr>
+	<!-- 动态入参 -->
+	<tr>
+		<th colspan="3">动态参数 API</th>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<th>类型</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">(无)</td>
+		<td class="center"><font color="red">此控件不支持动态入参,不支持表单校验(包括"是否为空"校验)</font></td>
+		<td></td>
+	</tr>
+
+	<!-- 界面脚本 -->
+	<tr>
+		<th colspan="3">页面JS API</th>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<th>参数说明</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">init()</td>
+		<td></td>
+		<td>将控件设置为初始化状态.<br />调用示例:<br /> <textarea>Widget.init($form,name);</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="center">enabled(flag)</td>
+		<td>flag:true:可用,默认值;false:不可用.</td>
+		<td>将控件设置为可用/不可用(disabled)状态.<br /> 调用示例:<br /> <textarea>Widget.enabled($form,name);</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="center">disabled()</td>
+		<td></td>
+		<td>将控件设置为不可用状态.<br />调用示例:<br /> <textarea>Widget.disabled($form,name);</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="center">val(value)</td>
+		<td>value:可选参数,目标值(用于赋值).</td>
+		<td>设置控件值.当val未传入时返回控件值.<br />调用示例:<br /> <textarea>Widget.val($form,name,’1’);</textarea>
+		</td>
+	</tr>
+</table>

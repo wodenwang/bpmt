@@ -1,0 +1,130 @@
+/**
+ * 顶部bar
+ */
+.frame.topbar {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 30px;
+	z-index: 99;
+	border-top-style: none !important;
+	border-left-style: none !important;
+	border-right-style: none !important;
+}
+
+/**
+ * 顶部功能菜单
+ */
+.frame.topbar .right {
+	position: absolute;
+	right: 10px;
+	bottom: 8px;
+}
+
+/**
+ * 顶部登陆信息
+ */
+.frame.topbar .left {
+	position: absolute;
+	left: 10px;
+	bottom: 8px;
+	font-weight: normal !important;
+}
+
+.frame.topbar ul {
+	list-style: none;
+}
+
+.frame.topbar ul li {
+	float: left;
+	margin-left: 10px;
+}
+
+.frame.topbar a {
+	text-decoration: none;
+}
+
+.frame.topbar a:hover {
+	text-decoration: underline;
+	color: red;
+}
+
+/**
+ * 	页面模板样式
+ */
+.frame.header {
+	margin: 5px;
+	margin-top: 40px !important;
+	position: relative;
+}
+
+/**
+ * 横向菜单
+ */
+.frame.header .left {
+	width: 250px;
+}
+
+.frame.header .left a {
+	display: inline-block;
+	overflow: hidden;
+}
+
+.frame.header .left a img {
+	width: 100%;
+	max-width: 100%;
+}
+
+.frame.header .right {
+	margin-left: 260px;
+	position: absolute;
+	bottom: 0px;
+}
+
+.frame.footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 30px;
+	margin: 0 !important;
+	z-index: 99;
+	border-bottom-style: none !important;
+	border-left-style: none !important;
+	border-right-style: none !important;
+}
+
+.frame.footer p {
+	text-align: center;
+	margin-top: 8px;
+}
+
+.frame.center {
+	margin: 5px;
+	margin-bottom: 40px !important;
+	min-height: 400px;
+	position: relative;
+}
+
+.frame.menu {
+	float: left;
+	width: 250px;
+	margin-top: 5px;
+}
+
+.frame.main {
+	margin-left: 260px;
+	min-width: 700px;
+}
+
+.frame.main.fullScreen {
+	margin-left: 0px !important;
+	margin-top: 40px !important;
+	margin-bottom: 40px !important;
+}
+
+/**
+ * 登陆框
+ */
+.frame.login {
+	width: 500px;
+}

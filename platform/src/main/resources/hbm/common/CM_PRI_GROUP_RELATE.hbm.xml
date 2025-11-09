@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.riversoft.platform.po.CmPriGroupRelate" table="CM_PRI_GROUP_RELATE">
+    <cache usage="read-write" />
+    <comment>权限关联组</comment>
+    <composite-id>
+      <key-property name="priKey" type="java.lang.String">
+        <column name="PRI_KEY" length="100" not-null="true">
+          <comment>权限资源ID</comment>
+        </column>
+      </key-property>
+      <key-property name="groupId" type="java.lang.String">
+        <column name="GROUP_ID" length="100" not-null="true">
+          <comment>权限组ID</comment>
+        </column>
+      </key-property>
+    </composite-id>
+
+    <property name="checkType" type="java.lang.Integer">
+      <column name="CHECK_TYPE" length="8">
+        <comment>验证脚本类型</comment>
+      </column>
+    </property>
+
+    <property name="checkScript" type="text">
+      <column name="CHECK_SCRIPT" >
+        <comment>验证脚本</comment>
+      </column>
+    </property>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

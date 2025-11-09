@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="CmBaseData" table="CM_BASE_DATA">
+    <cache usage="read-write" />
+    <comment>基础数据</comment>
+
+    <composite-id>
+      <key-property name="dataType" type="java.lang.String">
+        <column name="DATA_TYPE" length="100" not-null="true">
+          <comment>数据分类</comment>
+        </column>
+      </key-property>
+      <key-property name="dataCode" type="java.lang.String">
+        <column name="DATA_CODE" length="200" not-null="true">
+          <comment>扩展字段主键</comment>
+        </column>
+      </key-property>
+    </composite-id>
+
+    <property name="parentCode" type="java.lang.String">
+      <column name="PARENT_CODE" length="200">
+        <comment>父数据KEY</comment>
+      </column>
+    </property>
+
+    <property name="showName" type="java.lang.String">
+      <column name="SHOW_NAME" length="200" not-null="true">
+        <comment>翻译值</comment>
+      </column>
+    </property>
+
+
+    <property name="sort" type="java.lang.Integer">
+      <column name="SORT" length="8" not-null="true">
+        <comment>排序</comment>
+      </column>
+    </property>
+
+    <property name="extra" type="java.lang.String">
+      <column name="EXTRA" length="200">
+        <comment>扩展字段(用于自定义条件)</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

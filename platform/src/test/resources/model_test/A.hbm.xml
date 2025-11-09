@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class entity-name="A" table="TEST_A">
+		<comment>自定义表:A</comment>
+		<id name="id" type="java.lang.String">
+			<column name="ID" length="200">
+				<comment>主键</comment>
+			</column>
+		</id>
+		<property name="updateDate" type="java.util.Date">
+			<column name="UPDATE_DATE" length="23" not-null="true">
+				<comment>update date</comment>
+			</column>
+		</property>
+		<property name="busiName" type="java.lang.String">
+			<column name="BUSI_NAME" length="500" not-null="true">
+				<comment>busi name</comment>
+			</column>
+		</property>
+		<property name="createDate" type="java.util.Date">
+			<column name="CREATE_DATE" length="23" not-null="true">
+				<comment>create date</comment>
+			</column>
+		</property>
+
+		<map name="vars" inverse="true" cascade="all" lazy="false" table="TEST_B">
+			<key column="ID" />
+			<index type="string" column="FIELD_KEY" />
+			<one-to-many entity-name="B" />
+		</map>
+	</class>
+</hibernate-mapping>

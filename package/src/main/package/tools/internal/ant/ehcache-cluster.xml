@@ -1,0 +1,31 @@
+<project name="ehcache" default="default" basedir=".">
+
+	<import file="${basedir}/common.xml" />
+	
+	<property name="auto-discovery-template" value="${installation.tools.dir}/internal/files/cluster/ehcache-autodiscovery.xml"/>
+	<property name="mannual-template" value="${installation.tools.dir}/internal/files/cluster/ehcache-manual.xml"/>
+	<property name="default-template" value="${installation.tools.dir}/internal/files/cluster/ehcache-standalone.xml"/>
+	
+	<macrodef name="change-ehcache-setting">
+		<sequential>
+			<echo message="暂时未实现......"/>
+		</sequential>
+	</macrodef>
+	
+	<target name="showhelp">
+		<echo message="使用说明:" />
+		<echo message="0.本工具用于更改 BPMT tools 集群环境下所使用的缓存框架ehcache的系统设置。"/>
+		<echo message="1.单机环境下请使用默认配置。"/>
+		<echo message="2.集群环境如果支持多播，可以选用自动识别模式，否则请手动输入集群中个节点的内网IP地址。" />
+		<echo message="3.更多信息请参阅文档。" />
+	</target>
+
+	<target name="-init">
+		<antcall target="showhelp" />
+	</target>
+	
+	<target name="default" depends="-init" description="Default target.">
+		<change-ehcache-setting />
+	</target>
+	
+</project>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.riversoft.platform.po.DevQueue" table="DEV_QUEUE">
+		<cache usage="read-write" />
+		<comment>异步处理队列配置</comment>
+
+		<id name="queueKey" type="java.lang.String">
+			<column name="QUEUE_KEY" length="100" not-null="true">
+				<comment>队列主键</comment>
+			</column>
+		</id>
+
+		<property name="description" type="java.lang.String">
+			<column name="DESCRIPTION" length="500">
+				<comment>描述</comment>
+			</column>
+		</property>
+
+		<property name="updateDate" type="java.util.Date">
+			<column name="UPDATE_DATE" length="23" not-null="true">
+				<comment>更新时间</comment>
+			</column>
+		</property>
+
+		<property name="createDate" type="java.util.Date">
+			<column name="CREATE_DATE" length="23" not-null="true">
+				<comment>创建时间</comment>
+			</column>
+		</property>
+
+		<property name="createUid" type="java.lang.String">
+			<column name="CREATE_UID" length="100" not-null="true">
+				<comment>创建人</comment>
+			</column>
+		</property>
+
+		<property name="tableName" type="java.lang.String">
+			<column name="TABLE_NAME" length="100">
+				<comment>队列表名</comment>
+			</column>
+		</property>
+
+		<property name="logTableName" type="java.lang.String">
+			<column name="LOG_TABLE_NAME" length="100">
+				<comment>日志表名</comment>
+			</column>
+		</property>
+
+		<property name="execType" type="java.lang.Integer">
+			<column name="EXEC_TYPE" length="8" not-null="true">
+				<comment>脚本类型</comment>
+			</column>
+		</property>
+
+		<property name="execScript" type="text">
+			<column name="EXEC_SCRIPT" not-null="true">
+				<comment>脚本</comment>
+			</column>
+		</property>
+
+	</class>
+</hibernate-mapping>

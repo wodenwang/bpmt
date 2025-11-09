@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<style type="text/css">
+* {
+	color: #838383;
+	margin: 0;
+	padding: 0
+}
+
+html,body {
+	font-size: 12px;
+	overflow: hidden;
+}
+
+.content {
+	padding: 15px 0 0 0;
+}
+
+.content table {
+	width: 100%;
+	border: 0;
+}
+
+.content th {
+	width: 20%;
+	font-weight: normal;
+	text-align: right;
+	padding: 5px;
+}
+
+.content td {
+	text-align: left;
+	padding: 5px;
+}
+
+select {
+	width: 100px;;
+	height: 21px;
+	line-height: 21px;
+	margin-left: 4px;
+	margin-right: 5px;
+}
+
+input {
+	width: 40px;
+	height: 21px;
+	line-height: 21px;
+	margin-left: 4px;
+	margin-right: 5px;
+}
+</style>
+</head>
+<body>
+	<div class="content">
+		<table>
+			<tr>
+				<th>字段名</th>
+				<td colspan="3"><input id="textName" value="" style="width: 90%" /></td>
+			</tr>
+			<tr>
+				<th>宽度</th>
+				<td><input id="textWidth" value="100" />px</td>
+				<th>高度</th>
+				<td><input id="textHeight" value="20" />px</td>
+			</tr>
+			<tr>
+				<th>对齐</th>
+				<td colspan="3"><select id="textAlign"><option value="left">居左</option>
+						<option value="center">居中</option>
+						<option value="right">居右</option></select></td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript" src="../internal.js"></script>
+	<script type="text/javascript">
+		var current = editor.selection.getRange().startContainer;
+		var nameInput = $G('textName');
+		var widthInput = $G('textWidth');
+		var heightInput = $G('textHeight');
+		var alignSelect = $G('textAlign');
+
+		var flag = current && current.tagName == 'SPAN' && current.className.indexOf("textarea") != -1;//是否编辑
+
+		if (flag) {
+			var textarea = current.getElementsByTagName("TEXTAREA")[0];
+			nameInput.value = textarea.getAttribute("name");
+			widthInput.value = textarea.getAttribute("width");
+			heightInput.value = textarea.getAttribute("height");
+			alignSelect.value = textarea.getAttribute("text-align");
+			if (alignSelect.value == '') {
+				alignSelect.value = 'left';
+			}
+		}
+
+		dialog.onok = function() {
+			var style = "";
+			if (widthInput.value != '') {
+				style += ("width:" + widthInput.value + "px;");
+			}
+			if (heightInput.value != '') {
+				style += ("height:" + heightInput.value + "px;");
+			}
+			style += ("text-align:" + alignSelect.value + ";");
+
+			if (flag) {
+				var textarea = current.getElementsByTagName("TEXTAREA")[0];
+				textarea.setAttribute("name", nameInput.value);
+				textarea.setAttribute("width", widthInput.value);
+				textarea.setAttribute("height", heightInput.value);
+				textarea.setAttribute("style", style);
+				textarea.setAttribute("text-align", alignSelect.value);
+			} else {
+				var str = '<span class="textarea"><textarea name="'+nameInput.value +'" style="'+style+'" width="'+widthInput.value +'" height="'+heightInput.value +'" text-align="'+alignSelect.value +'"></textarea></span>';
+				editor.execCommand('insertHtml', str);
+			}
+			dialog.close();
+		};
+		$focus(nameInput);
+	</script>
+</body>
+</html>

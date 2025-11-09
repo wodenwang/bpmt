@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="WfEndEvent" table="WF_END_EVENT">
+    <cache usage="read-write" />
+    <comment>结束节点配置表</comment>
+
+    <composite-id>
+      <key-property name="pdId" type="java.lang.String">
+        <column name="PD_ID" length="100" not-null="true">
+          <comment>流程定义ID</comment>
+        </column>
+      </key-property>
+      <key-property name="activityId" type="java.lang.String">
+        <column name="ACTIVITY_ID" length="100" not-null="true">
+          <comment>节点ID</comment>
+        </column>
+      </key-property>
+    </composite-id>
+
+    <property name="stateType" type="java.lang.Integer">
+      <column name="STATE_TYPE" length="8" not-null="true">
+        <comment>完成模式</comment>
+      </column>
+    </property>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

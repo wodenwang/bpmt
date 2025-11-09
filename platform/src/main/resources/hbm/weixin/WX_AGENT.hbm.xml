@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="WxAgent" table="WX_AGENT">
+    <cache usage="read-write" />
+    <comment>微信应用</comment>
+
+    <id name="agentKey" type="java.lang.String">
+      <column name="AGENT_KEY" length="100" not-null="true">
+        <comment>主键KEY</comment>
+      </column>
+    </id>
+
+    <property name="createUid" type="java.lang.String">
+      <column name="CREATE_UID" length="100" not-null="true">
+        <comment>创建人</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="publicDate" type="java.util.Date">
+      <column name="PUBLIC_DATE" length="23">
+        <comment>发布时间</comment>
+      </column>
+    </property>
+
+    <property name="status" type="java.lang.Integer">
+      <column name="STATUS" length="8" not-null="true">
+        <comment>状态.0:已创建未连接;1:已对接;2:应用不存在</comment>
+      </column>
+    </property>
+
+    <property name="agentId" type="java.lang.Integer">
+      <column name="AGENT_ID" length="8" not-null="true">
+        <comment>企业号agentId</comment>
+      </column>
+    </property>
+
+    <property name="token" type="java.lang.String">
+      <column name="TOKEN" length="200" not-null="true">
+        <comment>Token</comment>
+      </column>
+    </property>
+
+    <property name="encodingAESKey" type="java.lang.String">
+      <column name="ENCODING_AES_KEY" length="200" not-null="true">
+        <comment>EncodingAESKey</comment>
+      </column>
+    </property>
+
+    <property name="agentSecret" type="java.lang.String">
+      <column name="AGENT_SECRET" length="200">
+        <comment>Secret</comment>
+      </column>
+    </property>
+
+    <property name="title" type="java.lang.String">
+      <column name="TITLE" length="200">
+        <comment>名称</comment>
+      </column>
+    </property>
+
+    <property name="description" type="text">
+      <column name="DESCRIPTION">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <property name="logoUrl" type="text">
+      <column name="LOGO_URL">
+        <comment>logo地址</comment>
+      </column>
+    </property>
+
+    <property name="reportUserEnter" type="java.lang.Integer">
+      <column name="REPORT_USER_ENTER" length="8" not-null="true">
+        <comment>用户进入事件开关</comment>
+      </column>
+    </property>
+
+    <property name="reportUserChange" type="java.lang.Integer">
+      <column name="REPORT_USER_CHANGE" length="8" not-null="true">
+        <comment>是否上报用户状态变化</comment>
+      </column>
+    </property>
+
+    <property name="reportLocationFlag" type="java.lang.Integer">
+      <column name="REPORT_LOCATION_FLAG" length="8" not-null="true">
+        <comment>是否接受用户地址上报</comment>
+      </column>
+    </property>
+
+    <property name="closeFlag" type="java.lang.Integer">
+      <column name="CLOSE_FLAG" length="8" not-null="true">
+        <comment>是否被禁用</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

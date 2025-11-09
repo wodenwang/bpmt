@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+    <property resource="log.properties" />
+
+	<appender name="PLATFORM" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<file>logs/platform.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/platform-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+			<timeBasedFileNamingAndTriggeringPolicy	class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>${log.keepdays}</maxHistory>
+		</rollingPolicy>
+   
+		<encoder>   
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%line] - %msg%n</pattern>
+			<charset>${log.encoding}</charset>
+		</encoder>
+
+	</appender>
+
+	<appender name="SCRIPT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<file>logs/script.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/script-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+			<timeBasedFileNamingAndTriggeringPolicy	class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>${log.keepdays}</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%line] - %msg%n</pattern>
+			<charset>${log.encoding}</charset>
+		</encoder>
+
+	</appender>
+
+    <appender name="SQLFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/sql/sql-%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+
+		<encoder>   
+			<pattern>%X{time}|%X{sql}|%msg%n</pattern>
+			<charset>${log.encoding}</charset>
+		</encoder>   
+	</appender>
+
+	<appender name="SQLSTATFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/stat/sql-%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%line] - %msg%n</pattern>
+			<charset>${log.encoding}</charset>
+		</encoder>
+	</appender>
+
+    <appender name="PERF4JFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/perf4j/perf4j-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="perf4jAppender" class="org.perf4j.logback.AsyncCoalescingStatisticsAppender">
+        <param name="TimeSlice" value="120000"/>
+        <appender-ref ref="PERF4JFILE"/>
+    </appender>
+
+	<logger name="com.riversoft" level="${log.level}"/>
+	<logger name="com.jolbox" level="${log.jolbox.level}"/>
+
+    <logger name="sql.logger" level="info" additivity="false">
+        <appender-ref ref="SQLFILE"/>
+    </logger>
+
+	<logger name="sql.stat.logger" level="info" additivity="false">
+		<appender-ref ref="SQLSTATFILE"/>
+	</logger>
+
+    <logger name="org.perf4j.TimingLogger" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="perf4jAppender"/>
+    </logger>
+
+	<logger name="script.log" additivity="false">
+		<level value="DEBUG"/>
+		<appender-ref ref="SCRIPT"/>
+	</logger>
+
+	<logger name="org.springframework" level="${log.3pp.level}" />
+	<logger name="org.hibernate" level="${log.3pp.level}" />
+	<logger name="org.jumpmind.db" level="${log.3pp.level}" />
+	<logger name="org.apache.commons" level="${log.3pp.level}" />
+	<logger name ="net.sf" level="${log.3pp.level}" />
+	<logger name ="net.sourceforge" level="${log.3pp.level}" />
+	<logger name ="freemarker" level="${log.3pp.level}" />
+	<logger name ="org.quartz.core" level="${log.3pp.level}" />
+
+	<root level="info">
+		<appender-ref ref="PLATFORM" />
+	</root>
+</configuration>

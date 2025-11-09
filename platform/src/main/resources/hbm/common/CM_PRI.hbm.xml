@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.riversoft.platform.po.CmPri" table="CM_PRI" lazy="false">
+		<cache usage="read-write" />
+		<comment>权限资源表</comment>
+
+		<id name="priKey" type="java.lang.String">
+			<column name="PRI_KEY" length="100" not-null="true">
+				<comment>唯一主键</comment>
+			</column>
+		</id>
+
+		<property name="catelogType" type="java.lang.Integer">
+			<column name="CATELOG_TYPE" length="8" not-null="true">
+				<comment>模块类别(开发写死)</comment>
+			</column>
+		</property>
+
+		<property name="catelogKey" type="java.lang.String">
+			<column name="CATELOG_KEY" length="100" not-null="true">
+				<comment>模块主键(开发写死)</comment>
+			</column>
+		</property>
+
+		<property name="busiName" type="java.lang.String">
+			<column name="BUSI_NAME" length="100" not-null="true">
+				<comment>展示名(开发写死)</comment>
+			</column>
+		</property>
+
+		<property name="description" type="java.lang.String">
+			<column name="DESCRIPTION" length="500">
+				<comment>描述(界面编辑)</comment>
+			</column>
+		</property>
+
+		<property name="type" type="java.lang.Integer">
+			<column name="TYPE" length="8" not-null="true">
+				<comment>组合验证类型</comment>
+			</column>
+		</property>
+
+		<property name="checkType" type="java.lang.Integer">
+			<column name="CHECK_TYPE" length="8" not-null="true">
+				<comment>验证脚本类型</comment>
+			</column>
+		</property>
+
+		<property name="checkScript" type="text">
+			<column name="CHECK_SCRIPT" not-null="true">
+				<comment>验证脚本</comment>
+			</column>
+		</property>
+
+	</class>
+</hibernate-mapping>
