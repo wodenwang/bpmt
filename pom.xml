@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.riversoft</groupId>
+  <artifactId>riversoft-product</artifactId>
+  <version>3.4.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>RiverSoft Product</name>
+
+  <properties>
+    <riversoft.deploy.repository.id>Riversoft-snapshot</riversoft.deploy.repository.id>
+    <riversoft.deploy.url>https://nexus.riversoft.com.cn/repository/Riversoft-snapshot/</riversoft.deploy.url>
+  </properties>
+  
+  <repositories>
+    <repository>
+      <id>maven-public</id>
+      <name>RiverSoft Public Repository</name>
+      <url>https://nexus.riversoft.com.cn/repository/maven-public/</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>Riversoft-release</id>
+      <url>https://nexus.riversoft.com.cn/repository/Riversoft-release/</url>
+    </repository>
+    <snapshotRepository>
+      <id>Riversoft-snapshot</id>
+      <url>https://nexus.riversoft.com.cn/repository/Riversoft-snapshot/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <developers>
+    <developer>
+      <id>woden</id>
+      <name>woden</name>
+      <email>wodenwang@gmail.com</email>
+    </developer>
+    <developer>
+      <id>borball</id>
+      <name>borball</name>
+      <email>borball@foxmail.com</email>
+    </developer>
+  </developers>
+
+  <modules>
+    <module>parent</module>
+    <module>util</module>
+	<module>magic</module>
+    <module>dbtools</module>
+    <module>platform</module>
+    <module>support</module>
+    <module>tools</module>
+    <module>package</module>
+  </modules>
+
+  <scm>
+    <url>https://svn.bpmt.app/svn/riversoft/trunk</url>
+    <connection>scm:svn:https://svn.bpmt.app/svn/riversoft/trunk</connection>
+    <developerConnection>scm:svn:https://svn.bpmt.app/svn/riversoft/trunk</developerConnection>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <additionalparam>${javadoc.opts}</additionalparam>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <reportPlugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <configuration>
+                <additionalparam>${javadoc.opts}</additionalparam>
+              </configuration>
+            </plugin>
+          </reportPlugins>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>Release</id>
+      <properties>
+        <riversoft.deploy.repository.id>Riversoft-release</riversoft.deploy.repository.id>
+        <riversoft.deploy.url>http://o.gzriver.com:8081/repository/Riversoft-release/</riversoft.deploy.url>
+      </properties>
+    </profile>
+    <profile>
+      <id>java8-doclint-disabled</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <properties>
+        <javadoc.opts>-Xdoclint:none</javadoc.opts>
+      </properties>
+    </profile>
+  </profiles>
+</project>
