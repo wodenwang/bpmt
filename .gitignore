@@ -1,0 +1,41 @@
+# Local metadata
+.DS_Store
+Thumbs.db
+.svn/
+.claude/
+.trae/
+.vscode/
+.idea/
+*.iml
+*.ipr
+
+# Runtime state
+runtime/
+logs/
+*/logs/
+**/logs/
+db/data/
+db/kyq.sql
+
+# Build outputs
+target/
+build/
+*.class
+*.jar
+*.war
+
+# Temp files
+*.tmp
+*.temp
+*.swp
+*~
+
+# Tooling
+.mvn/
+mvnw
+mvnw.cmd
+.gradle/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
