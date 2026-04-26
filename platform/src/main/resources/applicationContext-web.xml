@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+       default-init-method="init">
+
+    <bean id="accessTokenManager" class="com.riversoft.platform.web.AccessTokenManager"/>
+
+    <!-- action拦截器 -->
+    <bean id="wxActionAspect" class="com.riversoft.platform.web.WxActionAspect">
+        <property name="accessTokenManager" ref="accessTokenManager"/>
+    </bean>
+
+    <bean id="actionAspect" class="com.riversoft.platform.web.ActionAspect"/>
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="allActionPoint" expression="execution (* *..*Action.*(..))"/>
+        <aop:aspect id="wxActionAOP" ref="wxActionAspect">
+            <aop:around pointcut-ref="allActionPoint" method="doAround"/>
+        </aop:aspect>
+        <aop:aspect id="actionAOP" ref="actionAspect">
+            <aop:around pointcut-ref="allActionPoint" method="doAround"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!-- 视图模块处理器 -->
+    <bean name="viewActionBuilder" class="com.riversoft.platform.web.view.ViewActionBuilder"/>
+
+    <!-- 数据控件处理器 -->
+    <bean name="widgetConfigBuilder" class="com.riversoft.platform.web.widget.WidgetConfigBuilder"/>
+</beans>

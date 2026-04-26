@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+  default-init-method="init">
+
+  <!-- properties配置 -->
+  <bean id="config" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <property name="locations" value="classpath*:/*.properties" />
+  </bean>
+
+  <import resource="applicationContext-web.xml" />
+  <import resource="applicationContext-cache.xml" />
+  <import resource="applicationContext-hibernate.xml" />
+  <import resource="applicationContext-activiti.xml" />
+  <import resource="applicationContext-scripts.xml" />
+  <import resource="applicationContext-dtable.xml" />
+  <import resource="applicationContext-freemarker.xml" />
+  <import resource="applicationContext-scheduler.xml" />
+  <import resource="applicationContext-development.xml" />
+  <import resource="applicationContext-wx.xml" />
+  <import resource="applicationContext-ali.xml" />
+
+  <aop:aspectj-autoproxy proxy-target-class="true" />
+  <context:component-scan base-package="com.riversoft.platform">
+    <context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect" />
+  </context:component-scan>
+</beans>

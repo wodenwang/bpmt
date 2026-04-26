@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="WxAgentMessage" table="WX_AGENT_MESSAGE">
+    <cache usage="read-write" />
+    <comment>[企业号]对话框触发器</comment>
+
+    <id name="agentKey" type="java.lang.String">
+      <column name="AGENT_KEY" length="100" not-null="true">
+        <comment>应用KEY</comment>
+      </column>
+    </id>
+
+    <property name="eventFlag" type="java.lang.Integer">
+      <column name="EVENT_FLAG" length="8" not-null="true">
+        <comment>事件开关</comment>
+      </column>
+    </property>
+
+    <property name="logFlag" type="java.lang.Integer">
+      <column name="LOG_FLAG" length="8" not-null="true">
+        <comment>日志登记</comment>
+      </column>
+    </property>
+
+    <property name="eventType" type="java.lang.String">
+      <column name="EVENT_TYPE" length="100">
+        <comment>事件拦截的数据类型;TEXT;IMAGE;VOICE;VIDEO;SHORT_VIDEO;LOCATION</comment>
+      </column>
+    </property>
+
+    <property name="commandKey" type="java.lang.String">
+      <column name="COMMAND_KEY" length="100">
+        <comment>事件处理器主键</comment>
+      </column>
+    </property>
+
+    <property name="paramType" type="java.lang.Integer">
+      <column name="PARAM_TYPE" length="8">
+        <comment>动态参数</comment>
+      </column>
+    </property>
+
+    <property name="paramScript" type="text">
+      <column name="PARAM_SCRIPT">
+        <comment>动态参数</comment>
+      </column>
+    </property>
+
+    <property name="description" type="text">
+      <column name="DESCRIPTION">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <property name="logType" type="java.lang.String">
+      <column name="LOG_TYPE" length="100">
+        <comment>登记的数据类型;TEXT;IMAGE;VOICE;VIDEO;SHORT_VIDEO;LOCATION</comment>
+      </column>
+    </property>
+
+    <property name="logTable" type="java.lang.String">
+      <column name="LOG_TABLE" length="100">
+        <comment>数据记录表</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

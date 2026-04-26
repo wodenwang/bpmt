@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean name="aliClient" class="com.riversoft.ali.AliClient" >
+        <property name="endpoint" value="#{config['sms.ali.endpoint']}" />
+        <property name="appKey" value="#{config['sms.ali.appKey']}"/>
+        <property name="appSecret" value="#{config['sms.ali.appSecret']}"/>
+    </bean>
+
+    <bean name="smsClient" class="com.riversoft.ali.SmsClient">
+        <property name="aliClient" ref="aliClient"/>
+        <property name="signName" value="#{config['sms.ali.signName']}" />
+    </bean>
+</beans>

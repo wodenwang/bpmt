@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="WxUrl" table="WX_URL">
+    <cache usage="read-write" />
+    <comment>[微信]URL管理</comment>
+
+    <id name="urlKey" type="java.lang.String">
+      <column name="URL_KEY" length="100" not-null="true">
+        <comment>URL主键</comment>
+      </column>
+    </id>
+
+    <property name="createUid" type="java.lang.String">
+      <column name="CREATE_UID" length="100" not-null="true">
+        <comment>创建人</comment>
+      </column>
+    </property>
+
+    <property name="wxType" type="java.lang.Integer">
+      <column name="WX_TYPE" length="8" not-null="true">
+        <comment>微信平台类型</comment>
+      </column>
+    </property>
+
+    <property name="wxKey" type="java.lang.String">
+      <column name="WX_KEY" length="20">
+        <comment>微信平台KEY</comment>
+      </column>
+    </property>
+
+    <property name="wxScope" type="java.lang.String">
+      <column name="WX_SCOPE" length="20">
+        <comment>微信跳转方式;snsapi_base;snsapi_userinfo</comment>
+      </column>
+    </property>
+
+    <property name="description" type="text">
+      <column name="DESCRIPTION">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <property name="action" type="java.lang.String">
+      <column name="ACTION" length="500">
+        <comment>连接地址</comment>
+      </column>
+    </property>
+
+    <property name="paramType" type="java.lang.Integer">
+      <column name="PARAM_TYPE" length="8">
+        <comment>动态参数</comment>
+      </column>
+    </property>
+
+    <property name="paramScript" type="text">
+      <column name="PARAM_SCRIPT">
+        <comment>动态参数</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

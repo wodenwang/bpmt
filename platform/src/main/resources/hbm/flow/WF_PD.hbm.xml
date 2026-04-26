@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.riversoft.platform.po.WfPd" table="WF_PD">
+    <cache usage="read-write" />
+    <comment>流程定义配置表</comment>
+
+    <id name="pdId" type="java.lang.String">
+      <column name="PD_ID" length="100" not-null="true">
+        <comment>流程定义ID</comment>
+      </column>
+    </id>
+
+    <property name="basicViewKey" type="java.lang.String">
+      <column name="BASIC_VIEW_KEY" length="200" not-null="true">
+        <comment>基础视图主键</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

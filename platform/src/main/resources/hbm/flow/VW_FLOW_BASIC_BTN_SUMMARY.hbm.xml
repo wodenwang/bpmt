@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class entity-name="VwFlowBasicBtnSummary" table="VW_FLOW_BASIC_BTN_SUMMARY">
+		<cache usage="read-write" />
+		<comment>汇总按钮(表格底部展示)</comment>
+
+		<id name="id" type="java.lang.Long">
+			<column name="ID" length="12" not-null="true">
+				<comment>自动主键</comment>
+			</column>
+			<generator class="increment"></generator>
+		</id>
+
+		<property name="viewKey" type="java.lang.String">
+			<column name="VIEW_KEY" length="100" not-null="true">
+				<comment>主键KEY</comment>
+			</column>
+		</property>
+
+		<property name="busiName" type="java.lang.String">
+			<column name="BUSI_NAME" length="200" not-null="true">
+				<comment>展示名</comment>
+			</column>
+		</property>
+
+		<property name="styleClass" type="java.lang.String">
+			<column name="STYLE_CLASS" length="100" not-null="true">
+				<comment>对齐方式(left/right)</comment>
+			</column>
+		</property>
+
+		<property name="icon" type="java.lang.String">
+			<column name="ICON" length="100" not-null="true">
+				<comment>图标</comment>
+			</column>
+		</property>
+
+		<property name="action" type="java.lang.String">
+			<column name="ACTION" length="500" not-null="true">
+				<comment>目标地址</comment>
+			</column>
+		</property>
+
+		<property name="openType" type="java.lang.Integer">
+			<column name="OPEN_TYPE" length="8" not-null="true" default="1">
+				<comment>打开方式</comment>
+			</column>
+		</property>
+
+		<property name="description" type="java.lang.String">
+			<column name="DESCRIPTION" length="500">
+				<comment>描述</comment>
+			</column>
+		</property>
+
+		<property name="sort" type="java.lang.Integer">
+			<column name="SORT" length="8" not-null="true">
+				<comment>排序</comment>
+			</column>
+		</property>
+
+		<property name="paramType" type="java.lang.Integer">
+			<column name="PARAM_TYPE" length="8">
+				<comment>动态参数</comment>
+			</column>
+		</property>
+
+		<property name="paramScript" type="text">
+			<column name="PARAM_SCRIPT">
+				<comment>动态参数</comment>
+			</column>
+		</property>
+
+		<property name="confirmMsg" type="java.lang.String">
+			<column name="CONFIRM_MSG" length="1000">
+				<comment>确认信息(提示框)</comment>
+			</column>
+		</property>
+
+		<many-to-one name="pri" class="com.riversoft.platform.po.CmPri" cascade="all" lazy="false">
+			<column name="PRI" length="100" not-null="true">
+				<comment>权限功能点</comment>
+			</column>
+		</many-to-one>
+
+	</class>
+</hibernate-mapping>

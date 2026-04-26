@@ -1,0 +1,89 @@
+<table class="ws-table">
+	<tr>
+		<th>描述</th>
+		<td colspan="2">自定义控件-明细控件</td>
+	</tr>
+
+	<!-- 固定参数 -->
+	<tr>
+		<th colspan="3">固定参数 API</th>
+	</tr>
+	<tr>
+		<th>序号</th>
+		<th>类型</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">1</td>
+		<td class="center">必填</td>
+		<td>自定义控件配置KEY.</td>
+	</tr>
+
+	<!-- 动态入参 -->
+	<tr>
+		<th colspan="3">动态参数 API</th>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<th>类型</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">orderBy</td>
+		<td class="center">string</td>
+		<td>排序SQL片段.</td>
+	</tr>
+	<tr>
+		<td class="center">pageLimit</td>
+		<td class="center">number</td>
+		<td>每页记录数.</td>
+	</tr>
+	<tr>
+		<td class="center">add</td>
+		<td class="center">boolean</td>
+		<td>控件是否允许增加数据.</td>
+	</tr>
+	<tr>
+		<td class="center">delete</td>
+		<td class="center">boolean</td>
+		<td>控件是否允许删除数据.</td>
+	</tr>
+	<tr>
+		<td class="center">?</td>
+		<td class="center">?</td>
+		<td>任意自定义参数均可以在控件中的处理器通过cm.params()函数调用.</td>
+	</tr>
+	<!-- 界面脚本 -->
+	<tr>
+		<th colspan="3">页面JS API</th>
+	</tr>
+	<tr>
+		<th>名称</th>
+		<th>参数说明</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td class="center">init()</td>
+		<td></td>
+		<td>将控件设置为初始化状态.<br />调用示例:<br /> <textarea>Widget.init($form,name);</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="center">enabled(flag)</td>
+		<td>flag:true:可用,默认值;false:不可用.</td>
+		<td>将控件设置为可用/不可用(disabled)状态.<br /> 调用示例:<br /> <textarea>Widget.enabled($form,name);</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="center">disabled()</td>
+		<td></td>
+		<td>将控件设置为不可用状态.<br />调用示例:<br /> <textarea>Widget.disabled($form,name);</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="center">val(value)</td>
+		<td>value:可选参数,目标值(用于赋值).</td>
+		<td>设置控件值.当val未传入时返回控件值.<br />调用示例:<br /> <textarea>Widget.val($form,name,json);</textarea>
+		</td>
+	</tr>
+</table>

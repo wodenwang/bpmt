@@ -43,3 +43,4 @@ For the GitHub import, machine-local runtime data and oversized bundled distribu
 - `runtime/`
 - bundled JDK and Ant runtimes under `package/src/main/package/common/`
 - prepacked library snapshots under `package/src/main/package/platform/WEB-INF/lib/` and `package/src/main/package/tools/internal/libs/`
+- bundled third-party jars under `tools/src/main/tools/internal/libs/`

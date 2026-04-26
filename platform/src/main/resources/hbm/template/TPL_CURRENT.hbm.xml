@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class entity-name="TplCurrent" table="TPL_CURRENT">
+		<comment>当前模板</comment>
+
+		<id name="name" type="java.lang.String">
+			<column name="NAME" length="100" not-null="true">
+				<comment>属性名</comment>
+			</column>
+		</id>
+
+		<property name="busiName" type="java.lang.String">
+			<column name="BUSI_NAME" length="200" not-null="true">
+				<comment>展示名</comment>
+			</column>
+		</property>
+
+		<property name="propertyValue" type="java.lang.String">
+			<column name="PROPERTY_VALUE" length="500" not-null="true">
+				<comment>属性值</comment>
+			</column>
+		</property>
+
+	</class>
+</hibernate-mapping>

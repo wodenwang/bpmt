@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="CmHome" table="CM_HOME">
+    <cache usage="read-write" />
+    <comment>域首页</comment>
+    <id name="id" type="java.lang.String">
+      <column name="ID" length="100" not-null="true">
+        <comment>ID</comment>
+      </column>
+    </id>
+
+    <property name="sysFlag" type="java.lang.Integer">
+      <column name="SYS_FLAG" length="8" not-null="true" default="0">
+        <comment>是否系统级别</comment>
+      </column>
+    </property>
+
+    <property name="action" type="java.lang.String">
+      <column name="ACTION" length="500" not-null="true">
+        <comment>目标地址</comment>
+      </column>
+    </property>
+
+    <property name="domainKey" type="java.lang.String">
+      <column name="DOMAIN_KEY" length="100" not-null="true">
+        <comment>所处域</comment>
+      </column>
+    </property>
+
+    <property name="name" type="java.lang.String">
+      <column name="NAME" length="200" not-null="true">
+        <comment>展示名</comment>
+      </column>
+    </property>
+
+    <property name="columnIndex" type="java.lang.Integer">
+      <column name="COLUMN_INDEX" length="8" not-null="true">
+        <comment>列位置</comment>
+      </column>
+    </property>
+
+    <property name="sort" type="java.lang.Integer">
+      <column name="SORT" length="8" not-null="true">
+        <comment>排序</comment>
+      </column>
+    </property>
+
+    <property name="height" type="java.lang.Integer">
+      <column name="HEIGHT" length="8">
+        <comment>高度</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="paramType" type="java.lang.Integer">
+      <column name="PARAM_TYPE" length="8">
+        <comment>控件动态参数</comment>
+      </column>
+    </property>
+
+    <property name="paramScript" type="text">
+      <column name="PARAM_SCRIPT">
+        <comment>控件动态参数</comment>
+      </column>
+    </property>
+
+    <!-- 权限 -->
+    <many-to-one name="pri" class="com.riversoft.platform.po.CmPri" cascade="all" lazy="false">
+      <column name="PRI" length="100" not-null="true">
+        <comment>权限资源</comment>
+      </column>
+    </many-to-one>
+
+  </class>
+</hibernate-mapping>

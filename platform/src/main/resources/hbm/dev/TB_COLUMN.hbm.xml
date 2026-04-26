@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.riversoft.platform.po.TbColumn" table="TB_COLUMN">
+    <cache usage="read-write" />
+    <comment>动态表列配置</comment>
+
+    <composite-id>
+      <key-property name="tableName" type="java.lang.String">
+        <column name="TABLE_NAME" length="100" not-null="true">
+          <comment>表名</comment>
+        </column>
+      </key-property>
+      <key-property name="name" type="java.lang.String">
+        <column name="NAME" length="100" not-null="true">
+          <comment>列名</comment>
+        </column>
+      </key-property>
+    </composite-id>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <property name="primaryKey" type="boolean">
+      <column name="PRIMARY_KEY" sql-type="int" not-null="true">
+        <comment>是否主键</comment>
+      </column>
+    </property>
+
+    <property name="autoIncrement" type="boolean">
+      <column name="AUTO_INCREMENT" sql-type="int" not-null="true">
+        <comment>是否自增</comment>
+      </column>
+    </property>
+
+    <property name="required" type="boolean">
+      <column name="REQUIRED" sql-type="int" not-null="true">
+        <comment>是否必选</comment>
+      </column>
+    </property>
+
+    <property name="mappedTypeCode" type="int">
+      <column name="MAPPED_TYPE_CODE" not-null="true">
+        <comment>类型</comment>
+      </column>
+    </property>
+
+    <property name="totalSize" type="int">
+      <column name="TOTAL_SIZE" not-null="true">
+        <comment>长度</comment>
+      </column>
+    </property>
+
+    <property name="scale" type="int">
+      <column name="SCALE" not-null="true">
+        <comment>数字精度</comment>
+      </column>
+    </property>
+
+    <property name="defaultValue" type="java.lang.String">
+      <column name="DEFAULT_VALUE" length="200">
+        <comment>默认值</comment>
+      </column>
+    </property>
+
+    <property name="sort" type="java.lang.Integer">
+      <column name="SORT" not-null="true">
+        <comment>排序</comment>
+      </column>
+    </property>
+
+    <property name="memo" type="java.lang.String">
+      <column name="MEMO" length="500">
+        <comment>备注(管理员备注)</comment>
+      </column>
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="WxMp" table="WX_MP">
+    <cache usage="read-write" />
+    <comment>微信公众号配置</comment>
+
+    <id name="mpKey" type="java.lang.String">
+      <column name="MP_KEY" length="100" not-null="true">
+        <comment>主键KEY</comment>
+      </column>
+    </id>
+
+    <property name="createUid" type="java.lang.String">
+      <column name="CREATE_UID" length="100" not-null="true">
+        <comment>创建人</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="publicDate" type="java.util.Date">
+      <column name="PUBLIC_DATE" length="23">
+        <comment>发布时间</comment>
+      </column>
+    </property>
+
+    <property name="status" type="java.lang.Integer">
+      <column name="STATUS" length="8" not-null="true">
+        <comment>状态.0:已创建未连接;1:已对接</comment>
+      </column>
+    </property>
+
+    <property name="appId" type="java.lang.String">
+      <column name="APP_ID" length="200" not-null="true">
+        <comment>公众号appId</comment>
+      </column>
+    </property>
+
+    <property name="appSecret" type="java.lang.String">
+      <column name="APP_SECRET" length="200">
+        <comment>公众号appSecret</comment>
+      </column>
+    </property>
+
+    <property name="token" type="java.lang.String">
+      <column name="TOKEN" length="200" not-null="true">
+        <comment>Token</comment>
+      </column>
+    </property>
+
+    <property name="encodingAESKey" type="java.lang.String">
+      <column name="ENCODING_AES_KEY" length="200" not-null="true">
+        <comment>EncodingAESKey</comment>
+      </column>
+    </property>
+
+    <property name="title" type="java.lang.String">
+      <column name="TITLE" length="200" not-null="true">
+        <comment>名称</comment>
+      </column>
+    </property>
+
+    <property name="logoUrl" type="text">
+      <column name="LOGO_URL">
+        <comment>logo地址</comment>
+      </column>
+    </property>
+
+    <property name="description" type="text">
+      <column name="DESCRIPTION">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <property name="visitorTable" type="java.lang.String">
+      <column name="VISITOR_TABLE" length="200" not-null="true">
+        <comment>人员表</comment>
+      </column>
+    </property>
+
+    <property name="visitorTagTable" type="java.lang.String">
+      <column name="VISITOR_TAG_TABLE" length="200" not-null="true">
+        <comment>人员标签表</comment>
+      </column>
+    </property>
+
+    <property name="groupKey" type="java.lang.String">
+      <column name="GROUP_KEY" length="200">
+        <comment>绑定系统组</comment>
+      </column>
+    </property>
+
+    <property name="roleKey" type="java.lang.String">
+      <column name="ROLE_KEY" length="200">
+        <comment>绑定系统角色</comment>
+      </column>
+    </property>
+
+    <property name="templateMsgLogTable" type="java.lang.String">
+      <column name="TEMPLATE_MSG_LOG_TABLE" length="200">
+        <comment>模板消息发送日志表</comment>
+      </column>
+    </property>
+    
+    <property name="accessTokenUrl" type="java.lang.String">
+      <column name="ACCESS_TOKEN_URL" length="300">
+        <comment>accessToken获取地址</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

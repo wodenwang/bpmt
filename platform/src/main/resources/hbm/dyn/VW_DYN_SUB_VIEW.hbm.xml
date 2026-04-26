@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class entity-name="VwDynSubView" table="VW_DYN_SUB_VIEW">
+		<cache usage="read-write" />
+		<comment>视图子表标签</comment>
+
+		<id name="subKey" type="java.lang.String">
+			<column name="SUB_KEY" length="100" not-null="true">
+				<comment>唯一主键</comment>
+			</column>
+		</id>
+
+		<property name="viewKey" type="java.lang.String">
+			<column name="VIEW_KEY" length="100" not-null="true">
+				<comment>视图KEY</comment>
+			</column>
+		</property>
+
+		<property name="busiName" type="java.lang.String">
+			<column name="BUSI_NAME" length="200" not-null="true">
+				<comment>展示名</comment>
+			</column>
+		</property>
+
+		<property name="style" type="java.lang.String">
+			<column name="STYLE" length="500">
+				<comment>标签样式</comment>
+			</column>
+		</property>
+
+		<property name="sort" type="java.lang.Integer">
+			<column name="SORT" length="8" not-null="true">
+				<comment>排序</comment>
+			</column>
+		</property>
+
+		<property name="action" type="java.lang.String">
+			<column name="ACTION" length="500" not-null="true">
+				<comment>目标地址</comment>
+			</column>
+		</property>
+
+		<property name="paramType" type="java.lang.Integer">
+			<column name="PARAM_TYPE" length="8">
+				<comment>控件动态参数</comment>
+			</column>
+		</property>
+
+		<property name="paramScript" type="text">
+			<column name="PARAM_SCRIPT">
+				<comment>控件动态参数</comment>
+			</column>
+		</property>
+
+		<many-to-one name="pri" class="com.riversoft.platform.po.CmPri" cascade="all" lazy="false">
+			<column name="PRI" length="100" not-null="true">
+				<comment>展示权限</comment>
+			</column>
+		</many-to-one>
+	</class>
+
+</hibernate-mapping>

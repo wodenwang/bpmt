@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.riversoft.platform.po.UsUser" table="US_USER">
+    <cache usage="read-write" />
+    <comment>操作员</comment>
+    <id name="uid" type="java.lang.String">
+      <column name="USER_ID" length="100" not-null="true">
+        <comment>用户ID</comment>
+      </column>
+    </id>
+
+    <property name="password" type="java.lang.String">
+      <column name="PASSWORD" length="100" not-null="true">
+        <comment>用户密码</comment>
+      </column>
+    </property>
+
+    <property name="busiName" type="java.lang.String">
+      <column name="BUSI_NAME" length="200" not-null="true">
+        <comment>展示名称</comment>
+      </column>
+    </property>
+
+    <property name="sysFlag" type="java.lang.Integer">
+      <column name="SYS_FLAG" length="8" not-null="true" default="0">
+        <comment>是否系统级别</comment>
+      </column>
+    </property>
+
+    <property name="activeFlag" type="java.lang.Integer">
+      <column name="ACTIVE_FLAG" length="8" not-null="true">
+        <comment>是否生效</comment>
+      </column>
+    </property>
+
+    <property name="selectFlag" type="java.lang.Integer">
+      <column name="SELECT_FLAG" length="8" not-null="true">
+        <comment>是否控件中可选</comment>
+      </column>
+    </property>
+
+    <property name="sort" type="java.lang.Integer">
+      <column name="SORT" length="8" not-null="true" default="0">
+        <comment>排序</comment>
+      </column>
+    </property>
+
+    <property name="effDate" type="java.util.Date">
+      <column name="EFF_DATE" length="23" not-null="true">
+        <comment>生效时间</comment>
+      </column>
+    </property>
+
+    <property name="endDate" type="java.util.Date">
+      <column name="END_DATE" length="23" not-null="true">
+        <comment>失效时间</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+    <property name="allowIp" type="text">
+      <column name="ALLOW_IP">
+        <comment>白名单IP</comment>
+      </column>
+    </property>
+
+    <property name="mobile" type="java.lang.String">
+      <column name="MOBILE" length="100">
+        <comment>手机号</comment>
+      </column>
+    </property>
+
+    <property name="mail" type="java.lang.String">
+      <column name="MAIL" length="200">
+        <comment>邮箱</comment>
+      </column>
+    </property>
+
+    <property name="wxid" type="java.lang.String">
+      <column name="WXID" length="200">
+        <comment>微信ID</comment>
+      </column>
+    </property>
+
+    <property name="wxAvatar" type="text">
+      <column name="WX_AVATAR">
+        <comment>微信头像URL</comment>
+      </column>
+    </property>
+
+    <property name="wxEnable" type="java.lang.Integer">
+      <column name="WX_ENABLE" length="8" not-null="true">
+        <comment>微信开关</comment>
+      </column>
+    </property>
+
+    <property name="wxStatus" type="java.lang.Integer">
+      <column name="WX_STATUS" length="8">
+        <comment>微信状态(关注状态:1=已关注;2=已冻结;4=未关注)</comment>
+      </column>
+    </property>
+
+    <property name="msgType" type="java.lang.String">
+      <column name="MSG_TYPE" length="100">
+        <comment>接收消息类型(多选,分号隔离;MAIL:邮件;WX:微信企业号;)</comment>
+      </column>
+    </property>
+
+    <property name="receiveType" type="java.lang.String">
+      <column name="RECEIVE_TYPE" length="100">
+        <comment>接收消息范围(多选,分号隔离;USER:个人任务;GROUP:群组任务;)</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

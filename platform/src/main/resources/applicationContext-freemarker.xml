@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	default-init-method="init">
+
+	<bean name="annotatedWidgetProcessorsHolder" class="com.riversoft.core.web.widget.AnnotatedWidgetProcessorsHolder">
+		<property name="ftlDefaultPath" value="classpath:widget" />
+	</bean>
+
+	<!--freemarker配置 -->
+	<bean id="ftlTemplateConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<property name="preTemplateLoaders">
+			<list>
+				<bean class="com.riversoft.core.web.widget.CommonTemplateLoader">
+				</bean>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">#{config['freemarker.delay']?:'3600'}</prop>
+				<prop key="tag_syntax">auto_detect</prop><!-- 设置标签类型 两种：[] 和 <> 。[] 这种标记解析要快些 -->
+				<prop key="default_encoding">UTF-8</prop>
+				<prop key="output_encoding">UTF-8</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="number_format">#.####</prop><!-- 设置数字格式 以免出现 000.00 -->
+				<prop key="classic_compatible">true</prop><!-- 可以满足一般需要。默认情况变量为null则替换为空字符串，如果需要自定义，写上${empty!"EmptyValue of fbysss"}的形式即可 -->
+				<prop key="template_exception_handler">html_debug</prop><!-- ignore,debug,html_debug,rethrow -->
+			</props>
+		</property>
+	</bean>
+
+</beans>

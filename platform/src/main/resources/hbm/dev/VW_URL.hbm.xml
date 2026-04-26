@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.riversoft.platform.po.VwUrl" table="VW_URL">
+    <cache usage="read-write" />
+    <comment>动态视图配置</comment>
+
+    <id name="viewKey" type="java.lang.String">
+      <column name="VIEW_KEY" length="100" not-null="true">
+        <comment>主键KEY</comment>
+      </column>
+    </id>
+
+    <property name="lockFlag" type="java.lang.Integer">
+      <column name="LOCK_FLAG" length="8" not-null="true" default="0">
+        <comment>是否锁定(锁定则无法编辑)</comment>
+      </column>
+    </property>
+
+    <property name="viewClass" type="java.lang.String">
+      <column name="VIEW_CLASS" length="100" not-null="true">
+        <comment>对应模块</comment>
+      </column>
+    </property>
+
+    <property name="loginType" type="java.lang.Integer">
+      <column name="LOGIN_TYPE" length="8" not-null="true" default="1">
+        <comment>访问视图的登录模式;1:系统用户登陆;0:无需登录</comment>
+      </column>
+    </property>
+
+    <property name="createUid" type="java.lang.String">
+      <column name="CREATE_UID" length="100" not-null="true">
+        <comment>创建人</comment>
+      </column>
+    </property>
+
+    <property name="description" type="java.lang.String">
+      <column name="DESCRIPTION" length="500">
+        <comment>描述</comment>
+      </column>
+    </property>
+
+    <property name="updateDate" type="java.util.Date">
+      <column name="UPDATE_DATE" length="23" not-null="true">
+        <comment>更新时间</comment>
+      </column>
+    </property>
+
+    <property name="createDate" type="java.util.Date">
+      <column name="CREATE_DATE" length="23" not-null="true">
+        <comment>创建时间</comment>
+      </column>
+    </property>
+
+  </class>
+</hibernate-mapping>

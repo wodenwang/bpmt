@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class entity-name="VwDynSubSys" table="VW_DYN_SUB_SYS">
+		<cache usage="read-write" />
+		<comment>系统内置视图子表标签</comment>
+
+		<id name="subKey" type="java.lang.String">
+			<column name="SUB_KEY" length="100" not-null="true">
+				<comment>唯一主键</comment>
+			</column>
+		</id>
+
+		<property name="viewKey" type="java.lang.String">
+			<column name="VIEW_KEY" length="100" not-null="true">
+				<comment>视图KEY</comment>
+			</column>
+		</property>
+
+		<property name="name" type="java.lang.String">
+			<column name="NAME" length="100" not-null="true">
+				<comment>界面系统标签NAME(用于事件加载)</comment>
+			</column>
+		</property>
+
+		<property name="busiName" type="java.lang.String">
+			<column name="BUSI_NAME" length="200" not-null="true">
+				<comment>展示名</comment>
+			</column>
+		</property>
+
+		<property name="style" type="java.lang.String">
+			<column name="STYLE" length="500">
+				<comment>标签样式</comment>
+			</column>
+		</property>
+
+		<property name="sort" type="java.lang.Integer">
+			<column name="SORT" length="8" not-null="true">
+				<comment>排序</comment>
+			</column>
+		</property>
+
+		<many-to-one name="pri" class="com.riversoft.platform.po.CmPri" cascade="all" lazy="false">
+			<column name="PRI" length="100" not-null="true">
+				<comment>展示权限</comment>
+			</column>
+		</many-to-one>
+	</class>
+</hibernate-mapping>
