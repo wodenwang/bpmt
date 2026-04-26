@@ -1,0 +1,500 @@
+<!--
+
+  Unattended installation
+  =======================
+
+  All Drutt tasks have a attriubute called "unattended" set on them
+  as such, one can make some tasks unattended while leaving others in
+  "normal" mode so to speak. However, if the whole install is made
+  with "installation.installer.unattended=true" then that takes precedence.
+
+
+  @unattended
+    If a task is unattended and the stored value is valid, the task will
+    automatically use that value and not ask for input.
+    - Default: false
+  @searchsimilarconfigs
+    Whether to search for similar task that have been executed and present
+    choices from them as valid input
+    - Default: false
+
+-->
+<project name="River-task-defs" default="" basedir=".">
+
+  <!--
+    River-Menu
+    ========================================================================
+    Creates a selectable menu for the choices given, storing the result in
+    the given variable.
+
+    Attribute @addproperty
+      Name of property to store selected value to
+      - Default -
+    Attribute @choices
+      A comma-separated list of choices to make up selection list/menu from
+      - Default -
+    Attribute @save
+      Whether or not to store resulting choice for use in subsequent installs
+      - Default true
+    Attribute @separator
+      The separator to use, if ',' is used within a choice the separator can
+      be overridden to a different string.
+      - Default ","
+
+    ========================================================================
+
+
+    <River-Menu addproperty="" choices="" prompt="" save="" searchsimilarconfigs="" separator=""/>
+
+    Example:
+    <target name="test-menu">
+      <River-Menu choices="Install, Example Config, Exit" addproperty="test-menu-choice"/>
+      <condition>
+       ...
+      </condition>
+    </target>
+
+    The choices will be presented as [I]nstall, [Exa]mple Config and [Exi]t and the
+    resulting choice will be saved into an XML property file by the template:
+    MenuSelectTask-<OwningTarget>.xml which in this case will be - MenuSelectTask-test-menu.xml
+  -->
+  <taskdef name="River-Menu"
+    classname="com.riversoft.dtask.tasks.MenuSelectTask"
+    classpath="lib/dtasks.jar">
+  </taskdef>
+
+  <!--
+    River-Input
+    ========================================================================
+    Attribute @addproperty
+      Property that stores the input value
+      - Default : null
+    Attribute @defaultvalue
+      The default value, is displayed in brackets [] and used as value if no value is
+      entered
+      - Default : null
+    Attribute @confirm
+      If confirm is true, the user has to confirm the input value with yes or no
+      - Default : false
+    Attribute @prompt
+      The prompt to display to user
+      - Default : "Input excpected: "
+    Attribute @save
+      If set to false, the task will not store its result in a property file
+      - Default true
+    Attribute @numeric
+      If set to true, the input value is validated to be an integer.
+      - Default : false
+    Attribute @format
+      If set and numeric is false, will cause the input value to be validated
+      against this format as a regular expression.
+      - Default null
+    ========================================================================
+    Example:
+    <River-Input
+          addproperty="test-input-value"
+          defaultvalue="empty"
+          confirm="false"
+          prompt="Please supply input value:" save="false" searchsimilarconfigs="false"/>
+
+    <River-Input prompt="Write" addproperty="test-input-value"/>
+
+    <River-Input format=".*://.*" prompt="Enter URI to resource" addproperty="test" />
+  -->
+  <taskdef name="River-Input"
+    classname="com.riversoft.dtask.tasks.InputSelectTask"
+    classpath="lib/dtasks.jar">
+  </taskdef>
+
+  <!--
+    LanguageUtil
+    ========================================================================
+    Returns the display name of a locale, that is appropriate for display to the user.
+    
+    Attribute @addproperty
+      The property to store the display name in
+
+    Attribute @locale
+      The locale you want a language name for
+      - Default : null
+    
+    ========================================================================
+    Example:
+    <LanguageUtil addproperty="displayName" locale="sv" />
+    
+  -->
+  <taskdef name="LanguageUtil"
+    classname="com.riversoft.dtask.tasks.LanguageUtil"
+    classpath="lib/dtasks.jar">
+  </taskdef>
+
+  <!--
+    River-MD5Sum
+    ========================================================================
+    Creates MD5 Digest sums for all files included in the given fileset.
+
+    Attribute @verify
+        True to check the given files against the stored checksums. Used
+        together with @addproperty
+    Attribute @addproperty
+        Property that stores the failing files, ie the files whose md5sums
+        differ now compared to the time of the md5sum creation. The resulting
+        property contains a comma-separated list of filenames, suitable for
+        handing off to a <fileset includes="<addproperty>"/>
+
+    When @verify is omitted or just not "true", the MD5 checksums are written
+    to file. The file is named according to the established naming convention.
+
+    Eg: <MD5SumTask>-<create-checksum-here>.xml
+      MD5SumTask            - classname
+      create-checksum-here  - target name
+
+    ========================================================================
+
+    Post Install Create MD5Sums Example:
+      <River-MD5Sum verify="false">
+        <fileset dir=".">
+          <include name="**/*"/>
+        </fileset>
+      </River-MD5Sum>
+
+    Verify Example:
+      <River-MD5Sum verify="true" addproperty="failed-files">
+        <fileset dir=".">
+          <include name="*.xml"/>
+        </fileset>
+      </River-MD5Sum>
+      <echo message="Failing files: ${failed-files}"/>
+      <jar destfile="failed.jar">
+        <fileset dir="." includes="${failed-files}"/>
+      </jar>
+  -->
+  <taskdef name="River-MD5Sum"
+    classname="com.riversoft.dtask.tasks.MD5SumTask"
+    classpath="lib/dtasks.jar">
+  </taskdef>
+
+  <!--
+    River-Patch
+    ========================================================================
+
+  -->
+  <taskdef name="River-Patch"
+    classname="com.riversoft.dtask.tasks.PatchTask"
+    classpath="lib/dtasks.jar">
+  </taskdef>
+
+  <!--
+    CheckOracleConnectionTask
+    ========================================================================
+    Tests a database URL by establishing a connection to it.
+
+    Attribute @url
+      The jdbc connection string to use for connection to the database
+    Attribute @resultflag
+      The property to store the connection result into
+    ========================================================================
+
+    Example:
+
+    <target name="-configure-db-Interactive">
+      <River-OJDBC
+         url="JDBC_URL"
+         resultflag="database.connection.result"/>
+    </target>
+  -->
+  <taskdef name="River-OJDBC"
+    classname="com.riversoft.dtask.tasks.CheckOracleConnectionTask"
+    classpath="lib/dtasks.jar;lib/ojdbc14.jar">
+  </taskdef>
+
+  <!--
+    River-Hostname
+    ========================================================================
+    Attribute @prompt
+      The prompt to use
+      - Default: "Hostname : "
+    Attribute @addproperty
+      Property that stores the canonical hostname of the selected/input host
+      - Default : null
+    Attribute @suggest
+      If suggest is true, a menu will show allowing selection from the local
+      machines network interface adresses. A cancel choice allow for other
+      input
+      - Default : false
+    Attribute @allowinput
+      Used along with @suggest. If set to false, no 'Cancel' choice is presented
+      to the user.
+      - Default : true
+    Attribute @confirm
+      Confirm input. If true user confirmation required to set hostname.
+      - Default : false
+
+    ========================================================================
+
+    Example:
+
+    <River-Hostname addproperty="HELLOHOST" suggest="true" allowinput="false" />
+  -->
+  <taskdef name="River-Hostname"
+    classname="com.riversoft.dtask.tasks.HostNameTask"
+    classpath="lib/dtasks.jar">
+  </taskdef>
+
+  <!--
+      InitInstallTask
+      ========================================================================
+      Initializes the installation by reading configuration file. An output file
+      is created governed by these rules:
+
+      - If given an absolute path to the output file, this is used.
+      - If given just a filename, this file will be created in location given by
+        the "installation.installer.config.dir"
+      - When the file is not given, a file named install.conf will be created in
+        the "installation.installer.config.dir"
+
+      In all cases, any existing file with the same name as the outfile - will be
+      backed up using the same name with a timestamp extension.
+
+      ========================================================================
+
+      Example:
+
+      installation.installer.config.dir=/opt/drutt/installer/config
+
+      install.sh -o /opt/drutt/installs/install.out
+
+      install.sh -o install.out
+
+      install.sh
+
+      <River-InitInstall/>
+    -->
+    <taskdef name="River-InitInstall"
+      classname="com.riversoft.dtask.tasks.InitInstallTask"
+      classpath="lib/dtasks.jar">
+    </taskdef>
+
+  <!--
+      ExitInstall
+      ========================================================================
+      Final task to be run before installation quits. Potentially purges
+      globals file from temporary properties and copies those final values
+      to the configuration output.
+
+      All property names that begins with "temp" is considered temporary.
+
+      ========================================================================
+
+      Example:
+
+      Without purging temporary variables.
+      <River-ExitInstall/>
+
+      With purging of temporary variables.
+      <River-ExitInstall purgeTemporary="true" />
+    -->
+    <taskdef name="River-ExitInstall"
+      classname="com.riversoft.dtask.tasks.ExitInstall"
+      classpath="lib/dtasks.jar">
+    </taskdef>
+
+    <!--
+      River-Property
+      ========================================================================
+      Sets a global property, which is also saved into the installation
+      property file.
+
+      Attribute @addproperty
+        Name of the property to store to or retrieve into
+        - Default : null
+      Attribute @value
+        If value attribute is missing then the value @addproperty property will
+        be retrieved, else the value of @value is set for @addproperty and
+        stored in config file
+      ========================================================================
+
+      Example:
+
+      Set a property:
+      <River-Property
+        addproperty="installation.installer.singleSchemaInstall"
+        value="true"/>
+
+      Retrieve the property somewhere else:
+      <River-Property
+        addproperty="installation.installer.singleSchemaInstall" />
+
+    -->
+    <taskdef name="River-Property"
+      classname="com.riversoft.dtask.tasks.DPropertyTask"
+      classpath="lib/dtasks.jar">
+    </taskdef>
+
+    <!--
+      River-Sql
+      ========================================================================
+      Used instead of standard ANT <sql> task
+
+      Attribute @connectionString
+        The complete connectionString
+           jdbc:oracle:thin:<uname>/<passwd>@<host>:<port>:<SID>
+        Naturally you should use the resulting "addproperty" property from the
+        River-OJDBC task.
+        - Default : null
+      Attribute @haltOnError
+        Aborts build on warning/error
+        - Default: false
+      Attribute @printWarnings
+        Writes all warnings (eg table/column/data exists) to build log/console
+        - Default: false
+      Attribute @verbose
+        Prints all SQL commands before they are executed
+        - Default: false
+
+      Element <filelist>
+        SQL-files to run.
+      ========================================================================
+
+      Example:
+
+      <River-Sql connectionString="${JDBC_INTERACTIVE_URL}">
+        <filelist dir="${this.dir}/bin/sql/interactive-service">
+          <file name="drop_services.sql" />
+        </filelist>
+      </River-Sql>
+    -->
+    <taskdef name="River-Sql"
+      classname="com.riversoft.dtask.tasks.OracleSQLTask"
+      classpath="lib/dtasks.jar">
+    </taskdef>
+
+    <!--
+      River-DropSchema
+      ========================================================================
+      Used instead of standard ANT <sql> task
+
+      Attribute @connectionString
+        The complete connectionString
+           jdbc:oracle:thin:<uname>/<passwd>@<host>:<port>:<SID>
+        Naturally you should use the resulting "addproperty" property from the
+        River-OJDBC task.
+        - Default : null
+      Attribute @haltOnError
+        Aborts build on warning/error
+        - Default: false
+      Attribute @printWarnings
+        Writes all warnings (eg table/column/data exists) to build log/console
+        - Default: false
+      Attribute @verbose
+        Prints all SQL commands before they are executed
+        - Default: false
+      Attribute @model
+        Drop only the given model (model defined by  type$model$object-name
+        - Default: null (everything)
+
+      ========================================================================
+
+      Example:
+
+      <River-DropSchema connectionString="${JDBC_INTERACTIVE_URL}" />
+    -->
+    <taskdef name="River-DropSchema"
+      classname="com.riversoft.dtask.tasks.OracleDropSchemaTask"
+      classpath="lib/dtasks.jar">
+    </taskdef>
+
+
+    <!--
+      River-If
+      ............
+      River-IfElse
+         If
+         ElseIf
+         Else
+      ========================================================================
+      River-If can be used as a standalone task without the other two and
+      implements functionality to perform containing tasks only if a condition
+      holds true.
+
+      If @operator and @value are omitted, the <If> test will be true if the
+      property named is set at all.
+
+      Attribute @property
+        The name of the property whose value to test
+      Attribute @operator
+        Currently supported operators are '==' and '!='
+        Future operators are '<' '>' '||' '&&'
+      Attribute @value
+        The value to test against
+
+      ........................................................................
+      River-IfElse is a wrapper element for containing the River-If as well as
+      the River-Else task. The If-Else/ElseIf sequence is as should be expected.
+
+      ========================================================================
+
+      Example:
+
+      <property name="testme" value="9" />
+      <River-IfElse>
+        <If parameter="testme" operator="==" value="7">
+          <echo>EQUAL to 7</echo>
+        </If>
+        <Elseif parameter="testme" operator="==" value="9">
+          <echo>EQUAL to 9</echo>
+        </Elseif>
+        <Else>
+          <echo>VALUES UNEQUAL</echo>
+        </Else>
+      </River-IfElse>
+
+      <property name="conditionX" value="true" />
+      <River-If parameter="conditionX" operator="==" value="true">
+        <echo>Executing, condition fulfilled</echo>
+        <this-macro-should-be-performed-when-conditionX-holds />
+      </River-If>
+
+    -->
+    <taskdef name="River-If"
+      classname="com.riversoft.dtask.tasks.If"
+      classpath="lib/dtasks.jar">
+    </taskdef>
+    <taskdef name="River-IfElse"
+      classname="com.riversoft.dtask.tasks.IfElse"
+      classpath="lib/dtasks.jar">
+    </taskdef>
+
+  <!--
+    River-Patch-Copy
+    ========================================================================
+    Use to copy files when patching. This task first checks that all files
+    and directories exist, then it checks the MD5 sum both against the new
+    file and the supplied md5sums, and finally, if all conditions are met,
+    it copies the files.
+
+    Attribute @todir
+      The directory to which the file should be copied.
+      - Default : null
+    Attribute @newfile
+      The new file to be copied
+      - Default: null
+    Attribute @md5sums
+      The MD5 sums file to compare against.
+      - Default:
+    Attribute @backupDir
+      The directory to which the original file should be backed up to. This
+      directory is created if it does not exist.
+      - Default: null
+
+    ========================================================================
+
+    Example:
+
+    <River-Patch-Copy file="pmm.jar" todir="${installation.dir.runtime}/webapps/runtime.war/lib"
+                      backupDir="${installation.dir.backup}/runtime/webapps/runtime.war/lib"
+                      md5sums="${installation.dir.installer}/config/MD5-Verification.properties" />
+  -->
+
+
+</project>

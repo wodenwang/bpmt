@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>com.riversoft</groupId>
+		<version>3.4.1-SNAPSHOT</version>
+		<relativePath>../parent/</relativePath>
+	</parent>
+	<artifactId>dbtools</artifactId>
+	<name>RiverSoft DB Tools</name>
+
+	<properties>
+		<BuildOrder>10</BuildOrder>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.riversoft</groupId>
+			<artifactId>util</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jumpmind.symmetric</groupId>
+			<artifactId>symmetric-util</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jumpmind.symmetric</groupId>
+			<artifactId>symmetric-db</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jumpmind.symmetric</groupId>
+			<artifactId>symmetric-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<!-- JDBC drivers -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.microsoft</groupId>
+			<artifactId>sqlserver-jdbc</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- eclipse plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

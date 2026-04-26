@@ -1,0 +1,1 @@
+--add sql here, the sql file name should look like "1.0.sql", 1.0 is the release version
